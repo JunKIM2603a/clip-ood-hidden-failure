@@ -2,7 +2,7 @@
 
 > **Frozen for the Minimum Decisive Experiment: 2026-09-23**
 >
-> This document fixes the pilot ID/OOD datasets and the **predefined semantic subgroup schemes before detector subgroup results are inspected**. Exact class-to-group lookup tables will be generated from the cited official taxonomy/hierarchy sources and committed before the H1/H2 score analysis.
+> This document fixes the pilot ID/OOD datasets and the **predefined semantic subgroup schemes before detector subgroup results are inspected**. The exact class-to-group lookup tables for iNaturalist (110/110), SUN (50/50), and Places365 (50/50) were generated and committed on 2026-09-23 before H1/H2 detector subgroup-score analysis.
 
 ## Final pilot selection
 
@@ -81,7 +81,8 @@ Family-level results are reported as secondary/finer analysis. They do not defin
 - source: iNaturalist Backbone Taxonomy;
 - rank: order (primary), family (secondary);
 - mapping resolution date is recorded;
-- the exact 110-species mapping file must be committed **before detector subgroup scores are inspected**;
+- exact mapping file: `configs/subgroups/mappings/inaturalist_mos110_taxonomy.csv`;
+- status: **110/110 taxa mapped** before detector subgroup-score analysis;
 - once committed for the pilot, taxonomy mappings are not changed because of observed performance.
 
 ---
@@ -277,3 +278,20 @@ The following are fixed before pilot detector subgroup analysis:
 - minimum eligible groups per source: 3.
 
 The **text-embedding clustering** subgroup definition remains the second, independent grouping strategy specified elsewhere in the protocol. It must also be frozen before final test analysis.
+
+
+---
+
+# Pre-score mapping audit status
+
+The concept-level audit is complete and stored at `configs/subgroups/pre_score_audit.md`.
+
+| Source | Primary scheme | Leaf concepts mapped | Represented primary groups | Groups with >=2 leaf concepts |
+| --- | --- | ---: | ---: | ---: |
+| iNaturalist | taxonomic order | 110 / 110 | 30 | 22 |
+| SUN | official 15 basic-level hierarchy | 50 / 50 | 6 | 3 |
+| Places365 | official S16 hierarchy | 50 / 50 | 8 | 7 |
+
+This audit uses no MCM/NegLabel subgroup scores.
+
+The remaining audit is **image-level only** after the curated datasets are materialized: verify actual image counts, >=90% mapping coverage, and >=3 groups with >=200 images. Thresholds remain frozen regardless of detector results.
