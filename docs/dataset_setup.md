@@ -330,3 +330,23 @@ python scripts/data/setup_datasets.py --datasets ood
 ```
 
 Never paste a Hugging Face access token into this repository, an issue, a log committed to Git, or a chat message.
+
+
+### MOS semantic labels are a separate audit
+
+For iNaturalist/SUN/Places, successful installation means:
+
+- the official MOS archive is intact;
+- the expected 10,000 image files are present.
+
+It does **not** mean that the public archive exposes a class directory for every selected concept.
+
+Accordingly, installer output such as:
+
+```text
+inaturalist images=10000/10000 leaf-mapping=deferred => OK
+```
+
+is expected and means the dataset is usable for aggregate MCM/NegLabel reproduction.
+
+Semantic subgroup experiments require a later image-to-concept reconstruction step. This reconstruction is intentionally kept separate so installation success is not falsely equated with subgroup-label availability.
