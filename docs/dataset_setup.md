@@ -423,3 +423,25 @@ released archive plus authoritative metadata cannot support the pre-registered
 semantic subgroup evaluation with enough coverage. The thresholds must not be
 relaxed after seeing this result; the source is demoted to secondary analysis
 or replaced before detector subgroup scores are inspected.
+
+
+### SUN metadata fallback
+
+The historical Princeton URL for `Partitions.zip` currently returns HTTP 404.
+The semantic mapper therefore does **not** depend on that URL.
+
+Instead it uses the three full SUN397 path inventories bundled by TensorFlow
+Datasets and pins them to an exact TFDS Git commit plus Git blob SHA:
+
+- `sun397_tfds_tr.txt` — 76,128 paths
+- `sun397_tfds_va.txt` — 10,875 paths
+- `sun397_tfds_te.txt` — 21,750 paths
+
+Their union is the complete 108,753-image SUN397 inventory. TFDS itself uses
+the same inventory as the universe of SUN397 images before applying standard
+partitions.
+
+This is sufficient for the MOS semantic-label reconstruction because we only
+need a trustworthy mapping from released MOS image filename to original SUN
+scene path/category; we do not need the official train/test split assignment
+for the OOD subgroup analysis.
