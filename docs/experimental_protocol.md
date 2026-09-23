@@ -50,6 +50,32 @@ The exact class-to-group lookup tables must be generated from official taxonomy/
 
 ---
 
+
+
+## Pre-score feasibility amendment — 2026-09-24
+
+This amendment was made **before any MCM/NegLabel subgroup detector scores were inspected**.
+
+Image-level semantic mapping feasibility produced:
+
+| Source | Mapping coverage | Eligible predefined groups | Primary status |
+| --- | ---: | ---: | --- |
+| iNaturalist MOS-10k | 100.00% | 16 | PASS |
+| SUN MOS-10k | 100.00% | 3 | PASS |
+| Places MOS-10k | 1.78% | 0 | DEMOTED |
+
+The frozen rule required at least 90% image-to-concept mapping coverage and at least 3 eligible groups. Those thresholds were **not changed**.
+
+Accordingly:
+
+- primary predefined-semantic H1 sources: **iNaturalist + SUN**;
+- Places remains in the Traditional Four aggregate reproduction and may be used for secondary/non-primary analyses;
+- DTD remains aggregate reproduction / later text-clustering analysis.
+
+This is a dataset-feasibility amendment, not a response to H1/H2 outcomes. The Minimum Decisive Experiment originally allowed 2–3 OOD sources; two primary sources remain, so the pilot proceeds without redefining H1.
+
+---
+
 ## Prompt protocol
 
 ### Pilot size
