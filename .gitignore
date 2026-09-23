@@ -30,3 +30,11 @@ mlruns/
 
 # Keep directory placeholders if added later
 !results/raw/.gitkeep
+
+# Reproducibly re-cloned third-party research code
+third_party/
+
+# Local credentials / environment overrides
+.env
+.env.*
+*.local.env
