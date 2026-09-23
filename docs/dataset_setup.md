@@ -350,3 +350,76 @@ inaturalist images=10000/10000 leaf-mapping=deferred => OK
 is expected and means the dataset is usable for aggregate MCM/NegLabel reproduction.
 
 Semantic subgroup experiments require a later image-to-concept reconstruction step. This reconstruction is intentionally kept separate so installation success is not falsely equated with subgroup-label availability.
+
+
+## Reconstruct MOS image-level semantic labels
+
+The MOS iNaturalist/SUN/Places archives are sufficient for aggregate OOD
+evaluation, but their released directory layout does not by itself expose the
+selected leaf concept for every image. H1 therefore uses a separate
+pre-score reconstruction stage based only on authoritative source metadata.
+
+After all public OOD datasets are installed:
+
+\`\`\`bash
+python scripts/data/setup_datasets.py --datasets ood --verify-only
+
+python scripts/data/reconstruct_mos_labels.py
+\`\`\`
+
+The reconstruction sources are frozen in
+\`configs/datasets/semantic_metadata_sources.json\`:
+
+- iNaturalist: official 2017 train/validation annotation JSON;
+- SUN: union of all 10 official SUN397 training/testing partition lists;
+- Places365: Places365-Standard train/validation file lists and official
+  category IDs.
+
+Matching policy is conservative:
+
+\`\`\`text
+MOS released image filename
+        │
+        ├─ exact source relative path, if preserved
+        │
+        └─ exact basename only when it maps to exactly one selected concept
+                         │
+                         ▼
+                   leaf concept
+                         │
+                         ▼
+              frozen predefined subgroup
+\`\`\`
+
+Ambiguous or unmatched files remain unresolved. The script never fills them
+using CLIP predictions, nearest embeddings, or manual guesses.
+
+Outputs are local and remain outside Git:
+
+\`\`\`text
+data/semantic_labels/
+├── inaturalist_image_semantic_labels.csv
+├── sun_image_semantic_labels.csv
+├── places_image_semantic_labels.csv
+├── semantic_mapping_audit.json
+└── semantic_mapping_audit.md
+\`\`\`
+
+The audit applies the already-frozen primary rules:
+
+- mapping coverage >= 90%;
+- at least 3 eligible semantic groups;
+- each headline group has >= 200 images;
+- each headline group contains >= 2 leaf concepts.
+
+To make mapping feasibility a hard gate:
+
+\`\`\`bash
+python scripts/data/reconstruct_mos_labels.py --require-primary
+\`\`\`
+
+A nonzero exit here is **not an H1 experimental failure**. It means the
+released archive plus authoritative metadata cannot support the pre-registered
+semantic subgroup evaluation with enough coverage. The thresholds must not be
+relaxed after seeing this result; the source is demoted to secondary analysis
+or replaced before detector subgroup scores are inspected.
