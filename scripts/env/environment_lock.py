@@ -13,6 +13,8 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[2]
 LOCK = ROOT / "configs" / "environment" / "pilot_environment_lock.json"
 OPENOOD = ROOT / "third_party" / "OpenOOD-VLM"
+MCM = ROOT / "third_party" / "MCM"
+NEGLABEL = ROOT / "third_party" / "NegLabel"
 
 PACKAGES = [
     "torch",
@@ -89,6 +91,8 @@ def snapshot() -> dict:
         "packages": packages,
         "packages_sha256": hashlib.sha256(canonical).hexdigest(),
         "openood_commit": git_head(OPENOOD),
+        "mcm_commit": git_head(MCM),
+        "neglabel_commit": git_head(NEGLABEL),
         "openai_clip_commit": direct_git_commit("clip"),
     }
 
