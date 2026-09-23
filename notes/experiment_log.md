@@ -64,3 +64,36 @@ Record anomalies, failed runs, implementation deviations, and reasons for reruns
   - frozen subgroup thresholds remain unchanged.
 
 Interpretation: iNaturalist is usable as a primary predefined-semantic H1 source. This is **not** evidence for or against H1; no MCM/NegLabel subgroup performance has been examined.
+
+
+## 2026-09-24 — Completed MOS semantic mapping feasibility gate
+
+- Detector scores inspected: **No**
+- Frozen mapping threshold: **>=90%**
+- Frozen group eligibility: **>=200 images, >=2 leaf concepts, >=3 eligible groups/source**
+
+### iNaturalist MOS-10k
+- mapped: 10,000 / 10,000
+- coverage: 100.00%
+- eligible predefined groups: 16
+- primary eligibility: **PASS**
+
+### SUN MOS-10k
+- mapped: 10,000 / 10,000
+- coverage: 100.00%
+- eligible predefined groups: 3
+- primary eligibility: **PASS**
+
+### Places MOS-10k
+- mapped: 178 / 10,000
+- coverage: 1.78%
+- eligible predefined groups: 0
+- primary eligibility: **FAIL / DEMOTED**
+- frozen thresholds were not relaxed
+
+### Protocol impact
+- proceed with primary H1 on **iNaturalist + SUN**;
+- retain Places for standard aggregate Traditional Four reproduction and secondary analysis only;
+- this decision was made before MCM/NegLabel subgroup scores were inspected.
+
+Decision impact: **no H1/H2 decision yet; feasibility gate passed with two primary OOD sources.**
