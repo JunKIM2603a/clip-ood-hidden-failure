@@ -54,6 +54,10 @@ datasets:
 
   places:
     benchmark_variant: mos_curated_10k
+    primary_status: demoted_pre_score_mapping_feasibility
+    observed_image_mapping_coverage: 0.0178
+    allowed_for_primary_go_kill: false
+    demotion_reason: "Frozen minimum mapping coverage was 0.90; observed 0.0178 before detector subgroup scores were inspected."
     expected_samples: 10000
     selected_leaf_concepts: 50
     primary:
