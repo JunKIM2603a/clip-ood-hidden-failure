@@ -55,6 +55,43 @@ S_{robust}(x)=\mu(x)-\lambda\sigma(x)
 
 Lower prompt-score quantiles will also be evaluated.
 
+
+## Dataset Setup
+
+Pilot datasets are installed reproducibly **without committing image data to Git**.
+
+Public OOD datasets:
+
+```bash
+python3 -m pip install -r requirements-data.txt
+python3 scripts/data/setup_datasets.py --datasets ood
+```
+
+Full pilot including ImageNet-1K validation:
+
+```bash
+# Accept ImageNet access terms on ILSVRC/imagenet-1k first, then:
+hf auth login
+python3 scripts/data/setup_datasets.py --datasets all --imagenet-source hf
+```
+
+ImageNet can alternatively be installed from already-downloaded official
+`ILSVRC2012_img_val.tar` + devkit archives. The installer verifies image/class
+counts, creates semantic manifests and path-safe local OpenOOD imglists, and records
+dataset fingerprints under `data/state/`.
+
+After the first trusted full installation:
+
+```bash
+python3 scripts/data/dataset_lock.py freeze
+```
+
+Commit the resulting small `configs/datasets/pilot_data_lock.json` so other PCs can
+verify that they use the same dataset revision/archive and generated manifest.
+
+See [docs/dataset_setup.md](docs/dataset_setup.md) for dataset-specific download
+rules, ImageNet access constraints, shared-NAS setup, and recovery/fallback options.
+
 ## Semantic Subgroup Definitions
 
 Two definitions are evaluated in parallel:
@@ -101,9 +138,15 @@ Aggregate AUROC is high
 │   ├── hypotheses.md
 │   ├── literature_review.md
 │   ├── novelty_collision_search.md
-│   └── experimental_protocol.md
+│   ├── experimental_protocol.md
+│   ├── pilot_dataset_and_subgroups.md
+│   └── dataset_setup.md
 ├── configs/
-│   └── pilot.yaml
+│   ├── pilot.yaml
+│   ├── datasets/
+│   │   ├── pilot_sources.json
+│   │   └── pilot_data_lock.json
+│   └── subgroups/
 ├── src/
 │   ├── methods/
 │   ├── prompts/
@@ -111,6 +154,9 @@ Aggregate AUROC is high
 │   ├── metrics/
 │   └── analysis/
 ├── scripts/
+│   └── data/
+│       ├── setup_datasets.py
+│       └── dataset_lock.py
 ├── tests/
 ├── results/
 │   ├── raw/
