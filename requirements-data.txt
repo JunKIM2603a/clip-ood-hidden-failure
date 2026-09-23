@@ -1,0 +1,6 @@
+# OOD downloads use the Python standard library.
+# These packages enable gated Hugging Face ImageNet access and the optional
+# OpenOOD Google Drive fallback.
+huggingface_hub>=0.34
+datasets>=3.0
+gdown>=5.2
