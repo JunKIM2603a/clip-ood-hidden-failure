@@ -23,9 +23,12 @@ ipdb==0.13.13
 diffdist==0.1
 faiss-cpu==1.14.3
 
-# CLIP tokenizer dependencies.
+# CLIP / OpenOOD eager-import dependencies.
+# OpenOOD's network registry imports its OpenCLIP wrapper even when the pilot
+# uses bundled OpenAI CLIP, so open_clip must be importable.
 ftfy==6.3.1
 regex==2024.11.6
+open-clip-torch==3.3.0
 
 # Dataset installers / gated ImageNet support.
 gdown==5.2.0
