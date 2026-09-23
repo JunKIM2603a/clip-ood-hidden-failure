@@ -132,6 +132,25 @@ verify that they use the same dataset revision/archive and generated manifest.
 See [docs/dataset_setup.md](docs/dataset_setup.md) for dataset-specific download
 rules, ImageNet access constraints, shared-NAS setup, and recovery/fallback options.
 
+## Baseline Reproduction
+
+After dataset and semantic-mapping feasibility checks, reproduce the official-formula MCM and NegLabel baselines on CLIP ViT-B/16:
+
+```bash
+git pull
+bash scripts/env/setup_conda.sh
+conda activate clip-ood
+
+pytest -q tests/test_baseline_scores.py
+
+python scripts/baseline/prepare_features.py --backbone ViT-B/16 --gpu 0
+bash scripts/baseline/run_dual_gpu.sh
+```
+
+The feature cache is shared across both methods. MCM reads the official cleaned ImageNet class names from the pinned MCM repository; NegLabel reads the official ImageNet class/prompt definitions and provided selected negative-label file from the pinned NegLabel repository.
+
+See [docs/baseline_reproduction.md](docs/baseline_reproduction.md).
+
 ## Semantic Subgroup Definitions
 
 Two definitions are evaluated in parallel:
