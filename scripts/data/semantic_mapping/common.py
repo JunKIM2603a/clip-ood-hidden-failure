@@ -68,6 +68,19 @@ def digest(path: Path, algo: str = "md5") -> str:
     return h.hexdigest()
 
 
+def git_blob_sha1(path: Path) -> str:
+    size = path.stat().st_size
+    h = hashlib.sha1()
+    h.update(("blob {}\0".format(size)).encode("utf-8"))
+    with path.open("rb") as f:
+        while True:
+            block = f.read(8 * 1024 * 1024)
+            if not block:
+                break
+            h.update(block)
+    return h.hexdigest()
+
+
 def image_files(root: Path) -> list[Path]:
     if not root.exists():
         return []
