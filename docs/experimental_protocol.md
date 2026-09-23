@@ -26,14 +26,27 @@ Expansion:
 
 - CLIP ViT-B/16
 
-### Data
+### Data — frozen pilot selection
 
-- One ImageNet/OpenOOD-style ID dataset
-- Two to three OOD sources
-- Capped pilot subsets with thousands of samples per source
-- Expand to official full splits only after the pilot establishes a reproducible signal
+The Minimum Decisive Experiment uses the same benchmark lineage as MCM/NegLabel:
 
-Pilot subset sampling must be deterministic and seed-recorded.
+- **ID:** ImageNet-1K, ILSVRC2012 validation set, full 50,000 images.
+- **OOD-1:** iNaturalist MOS curated split, 10,000 images.
+- **OOD-2:** SUN MOS curated split, 10,000 images.
+- **OOD-3:** Places365 MOS curated split, 10,000 images.
+- **Aggregate reproduction control:** DTD / Textures, 5,640 images.
+
+No additional OOD subsampling is applied in the pilot. The MOS 10k sources are already curated/capped benchmark subsets.
+
+The primary predefined subgroup schemes are frozen in configs/subgroups/predefined.yaml and documented in docs/pilot_dataset_and_subgroups.md:
+
+- iNaturalist → official taxonomic **order**;
+- SUN → official hierarchy **basic-level (15-node level)**;
+- Places365 → official hierarchy **S16**.
+
+For primary worst-group reporting, groups require at least **200 images** and **2 leaf concepts**. A source must retain at least **3 eligible groups** and at least **90% mapping coverage** to define the pilot GO/KILL decision.
+
+The exact class-to-group lookup tables must be generated from official taxonomy/hierarchy sources and committed before detector subgroup scores are inspected.
 
 ---
 
