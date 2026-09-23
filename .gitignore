@@ -1,0 +1,32 @@
+# Python
+__pycache__/
+*.py[cod]
+*.so
+.venv/
+venv/
+
+# IDE
+.vscode/
+.idea/
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Datasets / large artifacts
+data/
+datasets/
+checkpoints/
+weights/
+*.pt
+*.pth
+*.ckpt
+
+# Experiment outputs
+results/raw/*
+results/cache/*
+wandb/
+mlruns/
+
+# Keep directory placeholders if added later
+!results/raw/.gitkeep
