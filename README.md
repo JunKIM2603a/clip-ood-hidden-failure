@@ -97,6 +97,16 @@ python3 -m pip install -r requirements-data.txt
 python3 scripts/data/setup_datasets.py --datasets ood
 ```
 
+After the MOS archives are installed, reconstruct image-level semantic labels
+from authoritative source metadata **before** H1 subgroup scoring:
+
+```bash
+python3 scripts/data/reconstruct_mos_labels.py --require-primary
+```
+
+This step uses no detector predictions. It audits mapping coverage and applies
+the already-frozen subgroup eligibility thresholds.
+
 Full pilot including ImageNet-1K validation:
 
 ```bash
