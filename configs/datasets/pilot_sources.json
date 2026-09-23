@@ -1,0 +1,66 @@
+{
+  "version": 1,
+  "frozen_on": "2026-09-23",
+  "recommended_free_gb": 35,
+  "datasets": {
+    "imagenet": {
+      "role": "id",
+      "destination": "images_largescale/imagenet_1k",
+      "expected_images": 50000,
+      "expected_classes": 1000,
+      "hf_repo": "ILSVRC/imagenet-1k",
+      "hf_split": "validation",
+      "official_val_md5": "29b22e2961454d5413ddabcf34fc5622",
+      "official_devkit_md5": "fa75699e90414af021442c21a62c3abf",
+      "official_download_page": "https://image-net.org/challenges/LSVRC/2012/2012-downloads"
+    },
+    "inaturalist": {
+      "role": "primary_ood",
+      "destination": "images_largescale/inaturalist",
+      "archive_name": "iNaturalist.tar.gz",
+      "official_urls": [
+        "https://pages.cs.wisc.edu/~huangrui/imagenet_ood_dataset/iNaturalist.tar.gz",
+        "http://pages.cs.wisc.edu/~huangrui/imagenet_ood_dataset/iNaturalist.tar.gz"
+      ],
+      "expected_images": 10000,
+      "expected_leaf_concepts": 110,
+      "openood_google_drive_id": "1zfLfMvoUD0CUlKNnkk7LgxZZBnTBipdj"
+    },
+    "sun": {
+      "role": "primary_ood",
+      "destination": "images_largescale/sun",
+      "archive_name": "SUN.tar.gz",
+      "official_urls": [
+        "https://pages.cs.wisc.edu/~huangrui/imagenet_ood_dataset/SUN.tar.gz",
+        "http://pages.cs.wisc.edu/~huangrui/imagenet_ood_dataset/SUN.tar.gz"
+      ],
+      "expected_images": 10000,
+      "expected_leaf_concepts": 50,
+      "openood_google_drive_id": "1ISK0STxWzWmg-_uUr4RQ8GSLFW7TZiKp"
+    },
+    "places": {
+      "role": "primary_ood",
+      "destination": "images_largescale/places",
+      "archive_name": "Places.tar.gz",
+      "official_urls": [
+        "https://pages.cs.wisc.edu/~huangrui/imagenet_ood_dataset/Places.tar.gz",
+        "http://pages.cs.wisc.edu/~huangrui/imagenet_ood_dataset/Places.tar.gz"
+      ],
+      "expected_images": 10000,
+      "expected_leaf_concepts": 50,
+      "openood_google_drive_id": "1fZ8TbPC4JGqUCm-VtvrmkYxqRNp2PoB3"
+    },
+    "dtd": {
+      "role": "aggregate_reproduction_ood",
+      "destination": "images_largescale/DTD",
+      "archive_name": "dtd-r1.0.1.tar.gz",
+      "official_urls": [
+        "https://thor.robots.ox.ac.uk/dtd/dtd-r1.0.1.tar.gz",
+        "https://www.robots.ox.ac.uk/~vgg/data/dtd/download/dtd-r1.0.1.tar.gz"
+      ],
+      "expected_images": 5640,
+      "expected_leaf_concepts": 47,
+      "openood_google_drive_id": "1OSz1m3hHfVWbRdmMwKbUzoU8Hg9UKcam"
+    }
+  }
+}
