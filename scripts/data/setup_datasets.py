@@ -426,7 +426,7 @@ def setup_imagenet_hf(cfg: dict, data_root: Path, force: bool) -> dict:
     try:
         from datasets import Image as HFImage
         from datasets import load_dataset
-        from huggingface_hub import HfApi
+        from huggingface_hub import HfApi, get_token
     except ImportError as exc:
         raise RuntimeError(
             "HF ImageNet mode needs datasets + huggingface_hub. "
@@ -443,15 +443,33 @@ def setup_imagenet_hf(cfg: dict, data_root: Path, force: bool) -> dict:
     val_root = root / "val"
     val_root.mkdir(parents=True, exist_ok=True)
 
-    token = os.environ.get("HF_TOKEN") or True
+    token = os.environ.get("HF_TOKEN") or get_token()
+    if not token:
+        raise RuntimeError(
+            "No Hugging Face token was found on this machine.\n"
+            "1) In a browser, sign in and accept the ImageNet access terms at:\n"
+            "   https://huggingface.co/datasets/ILSVRC/imagenet-1k\n"
+            "2) In this Conda environment run:\n"
+            "   hf auth login\n"
+            "   hf auth whoami\n"
+            "3) Rerun the ImageNet installer.\n"
+            "Do not paste or commit your HF token into this repository."
+        )
+
+    api = HfApi()
     try:
-        info = HfApi().dataset_info(cfg["hf_repo"], token=token)
+        who = api.whoami(token=token)
+        account = who.get("name") or who.get("fullname") or "authenticated user"
+        info = api.dataset_info(cfg["hf_repo"], token=token)
         revision = info.sha
+        print(f"[imagenet:hf-auth] authenticated as {account}")
     except Exception as exc:
         raise RuntimeError(
-            "ImageNet access is gated. Accept the terms at "
-            "https://huggingface.co/datasets/ILSVRC/imagenet-1k and run "
-            "hf auth login (or set HF_TOKEN)."
+            "A Hugging Face token is present, but ImageNet access failed.\n"
+            "Verify that the SAME Hugging Face account shown by hf auth whoami "
+            "has accepted the gated dataset terms in the browser:\n"
+            "https://huggingface.co/datasets/ILSVRC/imagenet-1k\n"
+            "If you recently switched accounts, run hf auth login --force."
         ) from exc
 
     print(f"[imagenet:hf] {cfg['hf_repo']} revision={revision}")
@@ -593,7 +611,9 @@ def targets(values: list[str]) -> list[str]:
     out = []
     for value in values:
         if value == "all":
-            out += ["imagenet", "inaturalist", "sun", "places", "dtd"]
+            # Install public OOD datasets first. ImageNet is gated, so a missing
+            # Hugging Face login should not prevent public data preparation.
+            out += ["inaturalist", "sun", "places", "dtd", "imagenet"]
         elif value == "ood":
             out += ["inaturalist", "sun", "places", "dtd"]
         else:
