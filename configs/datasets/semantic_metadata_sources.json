@@ -13,29 +13,37 @@
     "checksum_policy": "record_downloaded_md5_official_readme_does_not_publish_this_zip_md5"
   },
   "sun": {
-    "metadata_kind": "sun397_partitions_union",
-    "url": "https://vision.princeton.edu/projects/2010/SUN/download/Partitions.zip",
-    "archive_name": "SUN397_Partitions.zip",
-    "reference": "https://vision.princeton.edu/projects/2010/SUN/",
+    "metadata_kind": "tfds_sun397_full_filelists",
+    "authority": "SUN397 original dataset; full image-path inventory mirrored in TensorFlow Datasets",
+    "official_homepage": "https://vision.princeton.edu/projects/2010/SUN/",
+    "tfds_repo": "tensorflow/datasets",
+    "tfds_commit": "764eb13ad271629b32eca17d96b12bc13b509db4",
+    "reference": "https://github.com/tensorflow/datasets/blob/764eb13ad271629b32eca17d96b12bc13b509db4/tensorflow_datasets/datasets/sun397/sun397_dataset_builder.py",
+    "files": [
+      {
+        "name": "sun397_tfds_tr.txt",
+        "url": "https://raw.githubusercontent.com/tensorflow/datasets/764eb13ad271629b32eca17d96b12bc13b509db4/tensorflow_datasets/datasets/sun397/sun397_tfds_tr.txt",
+        "git_blob_sha1": "e37d414d046fe3a1848b5b0f7d45be4ae374d5a3",
+        "expected_lines": 76128
+      },
+      {
+        "name": "sun397_tfds_va.txt",
+        "url": "https://raw.githubusercontent.com/tensorflow/datasets/764eb13ad271629b32eca17d96b12bc13b509db4/tensorflow_datasets/datasets/sun397/sun397_tfds_va.txt",
+        "git_blob_sha1": "a37adfefe956b5bd3756fe1823722f8e63ded106",
+        "expected_lines": 10875
+      },
+      {
+        "name": "sun397_tfds_te.txt",
+        "url": "https://raw.githubusercontent.com/tensorflow/datasets/764eb13ad271629b32eca17d96b12bc13b509db4/tensorflow_datasets/datasets/sun397/sun397_tfds_te.txt",
+        "git_blob_sha1": "0eaf87ad5457a897b613c0cd4cbd2cef1d280d5f",
+        "expected_lines": 21750
+      }
+    ],
+    "expected_total_unique_paths": 108753,
     "join_policy": [
       "exact_basename_unique"
     ],
-    "partition_files": {
-      "training_pattern": "Training_{index:02d}.txt",
-      "testing_pattern": "Testing_{index:02d}.txt",
-      "indices": [
-        1,
-        2,
-        3,
-        4,
-        5,
-        6,
-        7,
-        8,
-        9,
-        10
-      ]
-    }
+    "note": "The original Princeton Partitions.zip URL currently returns 404. These three TFDS lists cover the complete SUN397 image inventory and are pinned by commit and Git blob SHA."
   },
   "places": {
     "metadata_kind": "places365_standard_filelist",
