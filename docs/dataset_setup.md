@@ -299,3 +299,34 @@ CLIP_OOD_DATA_ROOT=/mnt/nas/clip-ood-data \
 python3 scripts/data/dataset_lock.py freeze
 python3 scripts/data/dataset_lock.py check
 ```
+
+
+## Troubleshooting: Hugging Face token not found
+
+If the installer reports `LocalTokenNotFoundError` or says that no Hugging Face token is available:
+
+```bash
+conda activate clip-ood
+hf auth login
+hf auth whoami
+```
+
+The ImageNet access agreement must also be accepted in a browser for the same Hugging Face account:
+
+- https://huggingface.co/datasets/ILSVRC/imagenet-1k
+
+If `hf auth whoami` succeeds but ImageNet still returns an access error, the most likely cause is that the gated dataset terms were not accepted by that same account. Accept the terms in the browser and rerun only ImageNet:
+
+```bash
+python scripts/data/setup_datasets.py \
+  --datasets imagenet \
+  --imagenet-source hf
+```
+
+Public OOD data can be installed independently while ImageNet access is being resolved:
+
+```bash
+python scripts/data/setup_datasets.py --datasets ood
+```
+
+Never paste a Hugging Face access token into this repository, an issue, a log committed to Git, or a chat message.
