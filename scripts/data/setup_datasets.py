@@ -303,6 +303,7 @@ def verify_ood(name: str, cfg: dict, data_root: Path) -> dict:
     files = image_files(root)
     leaves = {leaf_for(root, p) for p in files}
     leaves.discard("")
+    leaf_check_required = bool(cfg.get("require_leaf_concepts_for_install", True))
     result = {
         "dataset": name,
         "root": str(root),
@@ -310,11 +311,18 @@ def verify_ood(name: str, cfg: dict, data_root: Path) -> dict:
         "expected_images": int(cfg["expected_images"]),
         "leaf_concepts": len(leaves),
         "expected_leaf_concepts": int(cfg["expected_leaf_concepts"]),
+        "leaf_check_required": leaf_check_required,
+        "semantic_image_mapping_status": cfg.get(
+            "semantic_image_mapping_status", "unknown"
+        ),
     }
-    result["ok"] = (
-        result["images"] == result["expected_images"]
-        and result["leaf_concepts"] == result["expected_leaf_concepts"]
+    image_ok = result["images"] == result["expected_images"]
+    leaf_ok = (
+        result["leaf_concepts"] == result["expected_leaf_concepts"]
+        if leaf_check_required
+        else True
     )
+    result["ok"] = image_ok and leaf_ok
     return result
 
 
@@ -327,14 +335,46 @@ def setup_ood(
 ) -> dict:
     current = verify_ood(name, cfg, data_root)
     if current["ok"] and not force:
+        root = data_root / cfg["destination"]
+        manifest, _ = build_ood_manifest(name, root, data_root)
+        imglist = build_ood_imglist(name, root, data_root)
+        archive = data_root / ".cache" / "downloads" / cfg["archive_name"]
+        state = {
+            **current,
+            "installed_at": now(),
+            "source_kind": "existing_install",
+            "manifest_sha256": digest(manifest),
+            "openood_local_imglist": str(imglist),
+        }
+        if archive.exists():
+            state["source_archive_sha256"] = digest(archive)
+            if cfg.get("archive_md5"):
+                state["source_archive_md5"] = digest(archive, "md5")
+        write_state(data_root, name, state)
         print(f"[ok] {name}: already installed")
-        return current
+        return state
 
     cache = data_root / ".cache" / "downloads"
     archive = cache / cfg["archive_name"]
     source_kind = "official"
     try:
         download_http(cfg["official_urls"], archive, force=force)
+        expected_md5 = cfg.get("archive_md5")
+        if expected_md5:
+            actual_md5 = digest(archive, "md5")
+            if actual_md5 != expected_md5:
+                print(
+                    f"[warn] {name} archive MD5 mismatch: "
+                    f"{actual_md5} != {expected_md5}; re-downloading"
+                )
+                archive.unlink(missing_ok=True)
+                download_http(cfg["official_urls"], archive, force=True)
+                actual_md5 = digest(archive, "md5")
+                if actual_md5 != expected_md5:
+                    raise RuntimeError(
+                        f"{name} archive MD5 mismatch after re-download: "
+                        f"{actual_md5} != {expected_md5}"
+                    )
     except Exception:
         if not allow_fallback:
             raise
@@ -359,6 +399,7 @@ def setup_ood(
         "installed_at": now(),
         "source_kind": source_kind,
         "source_archive_sha256": digest(archive),
+        "source_archive_md5": digest(archive, "md5"),
         "manifest_sha256": digest(manifest),
         "openood_local_imglist": str(imglist),
     }
@@ -629,7 +670,15 @@ def print_results(results: list[dict]) -> None:
         if "classes" in r:
             detail = f" classes={r['classes']}/{r['expected_classes']}"
         if "leaf_concepts" in r:
-            detail = f" leaf={r['leaf_concepts']}/{r['expected_leaf_concepts']}"
+            if r.get("leaf_check_required", True):
+                detail = (
+                    f" leaf={r['leaf_concepts']}/{r['expected_leaf_concepts']}"
+                )
+            else:
+                detail = (
+                    " leaf-mapping=deferred"
+                    f" ({r['leaf_concepts']} inferred from paths)"
+                )
         print(
             f"{r['dataset']:<14} images={r['images']}/{r['expected_images']}"
             f"{detail} => {'OK' if r['ok'] else 'FAIL'}"
