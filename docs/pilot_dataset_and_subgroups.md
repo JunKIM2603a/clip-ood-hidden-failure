@@ -321,9 +321,43 @@ This image-level join must be completed and audited before subgroup detector sco
 
 Current status:
 
-- iNaturalist: image-to-taxon mapping **pending**
-- SUN: image-to-scene mapping **pending**
-- Places365: image-to-scene mapping **pending**
+- iNaturalist: image-to-taxon mapping **100% complete; primary PASS**
+- SUN: image-to-scene mapping **100% complete; primary PASS**
+- Places365: image-to-scene mapping **1.78%; primary DEMOTED**
 - DTD: directory structure retains texture class labels
 
 The installation verifier therefore checks MOS archive integrity and image count, while semantic mapping coverage is checked later by the dedicated subgroup audit. The thresholds for H1 remain unchanged.
+
+
+---
+
+## Image-level feasibility result — 2026-09-24
+
+This audit was completed before inspecting detector subgroup scores.
+
+| Source | Image mapping | Coverage | Eligible primary groups | Decision |
+| --- | ---: | ---: | ---: | --- |
+| iNaturalist | 10,000 / 10,000 | 100.00% | 16 | primary PASS |
+| SUN | 10,000 / 10,000 | 100.00% | 3 | primary PASS |
+| Places365 | 178 / 10,000 | 1.78% | 0 | primary DEMOTED |
+
+The pre-frozen minimum coverage was 90%; it was not relaxed for Places.
+
+### Pilot after feasibility gate
+
+~~~text
+ID: ImageNet-1K
+│
+├── PRIMARY H1: iNaturalist MOS-10k
+│    └── taxonomic order
+│
+├── PRIMARY H1: SUN MOS-10k
+│    └── official basic-level scene groups
+│
+├── SECONDARY / AGGREGATE: Places MOS-10k
+│    └── predefined S16 mapping not primary-eligible
+│
+└── AGGREGATE: DTD / Textures
+~~~
+
+Places is not deleted from the benchmark. It remains part of the standard aggregate MCM/NegLabel Traditional Four evaluation. Its predefined semantic subgroup result cannot determine the pilot GO/KILL decision under the frozen protocol.
