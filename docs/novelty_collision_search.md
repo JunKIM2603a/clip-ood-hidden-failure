@@ -53,6 +53,7 @@ Additional targeted queries:
 | Lee et al., arXiv 2025 | **Yes** | **Yes; direct prompt-phrasing sensitivity analysis** | No direct semantic worst-group analysis found | No | No direct test found | **Closest direct collision** |
 | Information-theoretical VLM OOD, NeurIPS 2025 | Yes | Not central | No | No | No | Medium |
 | Promise, ICLR 2026 | General VLM, not OOD-specific | **Yes; prompt robustness** | No OOD semantic worst-group focus | No | No OOD-error test | Medium |
+| Koch et al., MIDL 2022 | No VLM focus | No | **Subgroup prevalence shift** | Population-level shift test, not semantic OOD worst-group | No | Terminology / adjacent |
 | OpenOOD-VLM, current codebase | **Yes** | Supports multiple prompt/VLM methods | Near/Far/covariate settings | No semantic worst-group prompt-dispersion protocol identified | No | Implementation overlap |
 
 ---
@@ -202,6 +203,26 @@ H3 should not be framed as a general new prompt-robustness method. Its defensibl
 
 ---
 
+
+## C7. Koch et al. 2022 — TERMINOLOGY COLLISION, DIFFERENT SUBGROUP PROBLEM
+
+*Hidden in Plain Sight: Subgroup Shifts Escape OOD Detection* may look like a direct prior-art collision from its title, but its target is different.
+
+It studies shifts in the **prevalence of subgroups that remain part of the ID distribution**. Since those individual samples are not actually OOD, the paper shows why instance-level OOD detectors are poorly suited to detecting the population change and proposes population-level statistical testing.
+
+The present project instead partitions **actual OOD samples** into semantic subgroups and asks whether detector AUROC/FPR95 varies sharply across those groups.
+
+### Terminology rule
+
+Prefer:
+
+- “semantic subgroup performance within OOD data,”
+- “semantic worst-group OOD detection,” or
+- “OOD-source internal semantic subgroup.”
+
+Avoid using “subgroup shift” as shorthand for H1, because that phrase already refers to a different distribution-shift problem.
+
+
 # Claims that should NOT appear in the proposal
 
 Do not write:
@@ -325,6 +346,7 @@ If H1 and H2 both succeed, H3 becomes a secondary mitigation experiment.
 
 # Sources / papers to keep in the active related-work set
 
+- Koch et al., MIDL 2022: https://proceedings.mlr.press/v172/koch22a.html
 - MCM, NeurIPS 2022: https://proceedings.neurips.cc/paper_files/paper/2022/hash/e43a33994a28f746dcfd53eb51ed3c2d-Abstract-Conference.html
 - OpenOOD, NeurIPS 2022: https://proceedings.neurips.cc/paper_files/paper/2022/hash/d201587e3a84fc4761eadc743e9b3f35-Abstract-Datasets_and_Benchmarks.html
 - NegLabel, ICLR 2024: https://proceedings.iclr.cc/paper_files/paper/2024/hash/40eff1670d6b08bb1bda48b0c5f30110-Abstract-Conference.html
