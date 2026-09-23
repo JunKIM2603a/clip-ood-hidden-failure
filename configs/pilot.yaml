@@ -13,14 +13,35 @@ methods:
 
 implementation:
   validate_against_official_or_openood_vlm: true
+  benchmark_family: imagenet_traditional_four
 
 data:
-  id_dataset: imagenet
-  ood_sources:
-    - TBD
-    - TBD
-  capped_subset: true
-  samples_per_ood_source: TBD
+  id:
+    dataset: imagenet_1k
+    split: ILSVRC2012_val
+    expected_samples: 50000
+    use_full_split: true
+
+  primary_ood_sources:
+    - name: inaturalist
+      variant: mos_curated_10k
+      expected_samples: 10000
+      use_full_curated_split: true
+    - name: sun
+      variant: mos_curated_10k
+      expected_samples: 10000
+      use_full_curated_split: true
+    - name: places
+      variant: mos_curated_10k
+      expected_samples: 10000
+      use_full_curated_split: true
+
+  aggregate_reproduction_only:
+    - name: dtd
+      variant: traditional_textures
+      expected_samples: 5640
+
+  additional_ood_subsampling: false
   deterministic_sampling: true
 
 prompts:
@@ -57,12 +78,16 @@ score_storage:
 subgroups:
   predefined:
     enabled: true
+    config: configs/subgroups/predefined.yaml
+    minimum_group_size_primary: 200
+    minimum_leaf_concepts_primary: 2
+    minimum_eligible_groups_per_source: 3
+    minimum_mapping_coverage: 0.90
   text_embedding_cluster:
     enabled: true
     embedding_model: TBD
     algorithm: TBD
     num_clusters: TBD
-  minimum_group_size_primary: TBD
   freeze_definition_before_final_analysis: true
 
 metrics:
@@ -82,7 +107,7 @@ metrics:
   uncertainty:
     bootstrap: true
     confidence_level: 0.95
-    num_resamples: TBD
+    num_resamples: 1000
 
 prompt_sensitivity:
   mean: true
@@ -117,6 +142,7 @@ robust_aggregation:
     test_tuning_forbidden: true
 
 decision_gate:
+  require_mapping_audit: true
   require_bootstrap_for_go: true
   outcomes:
     - GO
