@@ -1,7 +1,7 @@
 # Predefined Subgroup Pre-Score Audit
 
 > Audit date: **2026-09-23**  
-> This audit uses only benchmark concept lists and external taxonomy/hierarchy metadata. No MCM/NegLabel subgroup scores were inspected.
+> This audit uses only benchmark **selected-concept lists** and external taxonomy/hierarchy metadata. No MCM/NegLabel subgroup scores were inspected. It is a concept-level audit only; image-to-concept joins for flat MOS archives are a separate required step.
 
 ## Concept-level coverage
 
@@ -72,7 +72,7 @@ Under the frozen >=2-leaf rule, seven Places S16 groups remain concept-level eli
 
 ## Decision
 
-The frozen predefined grouping schemes pass the **concept-level** pre-score audit.
+The frozen predefined grouping schemes pass the **selected-concept-level** pre-score audit. This does not yet certify image-level semantic coverage for the released MOS archives.
 
 The next required check is image-level mapping/count coverage after the MOS-curated image lists are installed:
 
