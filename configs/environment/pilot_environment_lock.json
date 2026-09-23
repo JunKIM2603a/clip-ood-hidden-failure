@@ -1,0 +1,5 @@
+{
+  "status": "pending_first_verified_install",
+  "schema_version": 1,
+  "note": "After setup succeeds on the first experiment PC, run: python scripts/env/environment_lock.py freeze; review and commit this file."
+}
