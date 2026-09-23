@@ -514,12 +514,29 @@ def setup_imagenet_hf(cfg: dict, data_root: Path, force: bool) -> dict:
         ) from exc
 
     print(f"[imagenet:hf] {cfg['hf_repo']} revision={revision}")
-    ds = load_dataset(
-        cfg["hf_repo"],
-        split="validation",
-        revision=revision,
-        token=token,
-    )
+    try:
+        ds = load_dataset(
+            cfg["hf_repo"],
+            split="validation",
+            revision=revision,
+            token=token,
+        )
+    except Exception as exc:
+        message = str(exc)
+        if "gated dataset" in message.lower() or "ask for access" in message.lower():
+            raise RuntimeError(
+                "Hugging Face authentication succeeded, but this account does not yet "
+                "have file access to the gated ImageNet-1K dataset.\n"
+                "Authenticated account: {}\n"
+                "Open this page in a browser while logged into the SAME account:\n"
+                "  https://huggingface.co/datasets/ILSVRC/imagenet-1k\n"
+                "Then click the access/agree/request button and complete the form.\n"
+                "After access is granted, verify with hf auth whoami and rerun only:\n"
+                "  python scripts/data/setup_datasets.py --datasets imagenet --imagenet-source hf\n"
+                "If the page shows a pending request, approval has not been granted yet."
+                .format(account)
+            ) from exc
+        raise
     ds = ds.cast_column("image", HFImage(decode=False))
     label_names = list(getattr(ds.features["label"], "names", []) or [])
 
