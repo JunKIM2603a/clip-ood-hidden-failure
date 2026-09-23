@@ -1,0 +1,57 @@
+experiment:
+  name: mde_clip_ood_hidden_failure
+  seed: 42
+
+model:
+  family: clip
+  backbone: ViT-B/32
+
+methods:
+  - mcm
+  - neglabel
+
+data:
+  id_dataset: imagenet
+  ood_sources:
+    - TBD
+    - TBD
+  capped_subset: true
+  samples_per_ood_source: TBD
+
+prompts:
+  num_templates: 8
+  target_range: [8, 16]
+  semantic_equivalence_required: true
+
+subgroups:
+  predefined:
+    enabled: true
+  text_embedding_cluster:
+    enabled: true
+    num_clusters: TBD
+
+metrics:
+  aggregate:
+    - auroc
+    - aupr
+    - fpr95
+  subgroup:
+    - auroc
+    - fpr95
+  worst_group:
+    - fpr95
+  uncertainty:
+    bootstrap: true
+    confidence_level: 0.95
+
+prompt_sensitivity:
+  mean: true
+  std: true
+  lower_quantile: true
+
+robust_aggregation:
+  enabled: false
+  formula: mean_minus_lambda_std
+  lambda_tuning:
+    source: validation_only
+    test_tuning_forbidden: true
