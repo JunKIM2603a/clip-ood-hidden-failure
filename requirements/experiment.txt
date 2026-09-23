@@ -1,0 +1,36 @@
+# Numerical stack.
+# NumPy intentionally stays below 2.0 because OpenOOD imports imgaug 0.4.0,
+# whose current release still uses APIs removed in NumPy 2.x.
+numpy==1.26.4
+scipy==1.13.1
+pandas==2.2.3
+scikit-learn==1.5.2
+
+# Plotting / image IO.
+matplotlib==3.9.2
+Pillow==11.0.0
+opencv-python-headless==4.10.0.84
+scikit-image==0.24.0
+imageio==2.36.0
+Shapely==2.0.6
+
+# OpenOOD config/runtime utilities.
+PyYAML==6.0.2
+json5==0.15.0
+tqdm==4.67.1
+six==1.16.0
+ipdb==0.13.13
+diffdist==0.1
+faiss-cpu==1.14.3
+
+# CLIP tokenizer dependencies.
+ftfy==6.3.1
+regex==2024.11.6
+
+# Dataset installers / gated ImageNet support.
+gdown==5.2.0
+huggingface-hub==0.35.3
+datasets==4.1.1
+
+# Local testing.
+pytest==8.3.5
