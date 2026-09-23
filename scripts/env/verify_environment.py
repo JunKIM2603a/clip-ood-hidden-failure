@@ -157,6 +157,7 @@ def main() -> None:
         "gdown",
         "huggingface-hub",
         "datasets",
+        "open-clip-torch",
     ]
     print("\ncritical packages:")
     missing = []
@@ -176,6 +177,7 @@ def main() -> None:
         "faiss",
         "libmr",
         "clip",
+        "open_clip",
         "openood.preprocessors",
         "openood.postprocessors",
         "openood.networks",
