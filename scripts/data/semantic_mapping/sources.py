@@ -7,6 +7,7 @@ from .common import (
     Lookup,
     digest,
     download,
+    git_blob_sha1,
     norm_path,
     norm_scene,
     norm_taxon,
@@ -62,42 +63,65 @@ def _sun_leaf(path: str, selected: dict):
 def build_sun(meta: dict, cache: Path):
     selected, _ = subgroup_mapping("sun")
     cfg = meta["sun"]
-    archive = download(
-        cfg["url"], cache / cfg["archive_name"], cfg.get("archive_md5")
-    )
-    root = safe_extract(archive, cache / "sun397_partitions")
     lookup = Lookup()
-    unique_paths = set()
-    files_used = 0
+    all_paths = set()
+    selected_paths = set()
+    file_records = []
 
-    part = cfg["partition_files"]
-    for idx in part["indices"]:
-        for pattern in (part["training_pattern"], part["testing_pattern"]):
-            filename = pattern.format(index=idx)
-            found = list(root.rglob(filename))
-            if not found:
-                raise RuntimeError(filename + " not found in " + str(archive))
-            files_used += 1
-            for line in found[0].read_text(
+    for item in cfg["files"]:
+        path = download(item["url"], cache / item["name"])
+        actual_blob = git_blob_sha1(path)
+        if actual_blob != item["git_blob_sha1"]:
+            path.unlink(missing_ok=True)
+            raise RuntimeError(
+                "SUN metadata Git blob SHA mismatch for {}: {} != {}".format(
+                    item["name"], actual_blob, item["git_blob_sha1"]
+                )
+            )
+
+        lines = [
+            line.strip()
+            for line in path.read_text(
                 encoding="utf-8", errors="replace"
-            ).splitlines():
-                relative = line.strip()
-                if not relative:
-                    continue
-                leaf = _sun_leaf(relative, selected)
-                if not leaf:
-                    continue
-                key = norm_path(relative)
-                if key in unique_paths:
-                    continue
-                unique_paths.add(key)
-                lookup.add(key, leaf, filename + ":" + key)
+            ).splitlines()
+            if line.strip()
+        ]
+        if len(lines) != int(item["expected_lines"]):
+            raise RuntimeError(
+                "SUN metadata line-count mismatch for {}: {} != {}".format(
+                    item["name"], len(lines), item["expected_lines"]
+                )
+            )
+
+        file_records.append({
+            "name": item["name"],
+            "git_blob_sha1": actual_blob,
+            "lines": len(lines),
+        })
+
+        for relative in lines:
+            key = norm_path(relative)
+            all_paths.add(key)
+            leaf = _sun_leaf(relative, selected)
+            if not leaf:
+                continue
+            selected_paths.add(key)
+            lookup.add(key, leaf, item["name"] + ":" + key)
+
+    expected_total = int(cfg["expected_total_unique_paths"])
+    if len(all_paths) != expected_total:
+        raise RuntimeError(
+            "SUN full inventory mismatch: {} != {}".format(
+                len(all_paths), expected_total
+            )
+        )
 
     return lookup, {
-        "metadata_archive": str(archive),
-        "metadata_md5": digest(archive, "md5"),
-        "partition_files_used": files_used,
-        "unique_selected_paths_in_partition_union": len(unique_paths),
+        "metadata_kind": cfg["metadata_kind"],
+        "tfds_commit": cfg["tfds_commit"],
+        "full_inventory_paths": len(all_paths),
+        "selected_metadata_paths": len(selected_paths),
+        "files": file_records,
     }
 
 
