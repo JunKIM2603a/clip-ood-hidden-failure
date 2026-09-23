@@ -5,11 +5,12 @@
     "metadata_kind": "inat2017_annotations",
     "url": "https://ml-inat-competition-datasets.s3.amazonaws.com/2017/train_val2017.zip",
     "archive_name": "train_val2017.zip",
-    "archive_md5": "444c835f6459867ad69fcb36478786e7",
+    "archive_md5": null,
     "reference": "https://github.com/visipedia/inat_comp/tree/master/2017",
     "join_policy": [
       "exact_basename_unique"
-    ]
+    ],
+    "checksum_policy": "record_downloaded_md5_official_readme_does_not_publish_this_zip_md5"
   },
   "sun": {
     "metadata_kind": "sun397_partitions_union",
@@ -22,7 +23,18 @@
     "partition_files": {
       "training_pattern": "Training_{index:02d}.txt",
       "testing_pattern": "Testing_{index:02d}.txt",
-      "indices": [1,2,3,4,5,6,7,8,9,10]
+      "indices": [
+        1,
+        2,
+        3,
+        4,
+        5,
+        6,
+        7,
+        8,
+        9,
+        10
+      ]
     }
   },
   "places": {
