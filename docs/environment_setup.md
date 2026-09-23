@@ -20,6 +20,7 @@ This avoids depending on the old OpenOOD-VLM `environment.yml`, which still desc
 | torchvision | 0.24.1 |
 | PyTorch CUDA wheel | CUDA 12.6 (`cu126`) |
 | NumPy | 1.26.4 |
+| OpenCLIP | open-clip-torch 3.3.0 |
 | OpenOOD-VLM | commit `48b023365b68b54c87f84ab508de8a3222335985` |
 | OpenAI CLIP | commit `d05afc436d78f1c48dc0dbf8e5980a9d471f35f6` |
 
@@ -32,6 +33,16 @@ The project needs modern PyTorch for RTX 4090 while OpenOOD still eagerly import
 OpenOOD imports `imgaug` through its preprocessor package even when MCM/NegLabel do not use DRAEM. The released `imgaug 0.4.0` still uses NumPy APIs removed in NumPy 2.x.
 
 Therefore NumPy 1.26.4 is an intentional compatibility pin, not an accidental old dependency.
+
+### Why OpenCLIP is installed although the pilot uses OpenAI CLIP
+
+OpenOOD-VLM's network registry imports its OpenCLIP wrapper at module import time. Therefore `open_clip` must be importable even when MCM/NegLabel are configured to use the bundled OpenAI CLIP implementation.
+
+The environment pins `open-clip-torch==3.3.0` only to make that registry import deterministic; it does not change the pilot backbone.
+
+### Why PyTorch 2.9.1 instead of automatically following the newest release
+
+The goal is reproducibility, not chasing the latest framework release. PyTorch 2.9.1 + torchvision 0.24.1 has an official CUDA 12.6 wheel and supports the RTX 4090. Once the first workstation passes the MCM/NegLabel smoke test, this combination is frozen for the pilot rather than upgraded mid-study.
 
 ### Why faiss-cpu although the experiment has GPUs
 
