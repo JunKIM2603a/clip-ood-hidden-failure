@@ -1,0 +1,5 @@
+{
+  "status": "pending_first_install",
+  "schema_version": 1,
+  "note": "After the first verified installation run: python scripts/data/dataset_lock.py freeze; then review and commit this file."
+}
