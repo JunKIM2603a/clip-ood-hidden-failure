@@ -445,3 +445,23 @@ This is sufficient for the MOS semantic-label reconstruction because we only
 need a trustworthy mapping from released MOS image filename to original SUN
 scene path/category; we do not need the official train/test split assignment
 for the OOD subgroup analysis.
+
+### Authenticated but gated access not granted
+
+A successful `hf auth whoami` only proves that the machine has a valid Hugging Face token.
+It does **not** prove that the account has been granted access to a gated dataset.
+
+If ImageNet loading reports that `ILSVRC/imagenet-1k` is gated and asks for access:
+
+1. Open https://huggingface.co/datasets/ILSVRC/imagenet-1k in a browser.
+2. Confirm the browser is logged into the same account shown by `hf auth whoami`.
+3. Complete the access/agree/request form.
+4. If the page shows a pending request, access has not yet been granted.
+5. Once access is granted, rerun only the ImageNet installer.
+
+```bash
+hf auth whoami
+python scripts/data/setup_datasets.py --datasets imagenet --imagenet-source hf
+```
+
+While gated access is unresolved, OOD feature caches and unit tests can still be prepared.
