@@ -353,6 +353,23 @@ Promise studies prompt robustness broadly across VLM tasks and reduces cross-pro
 
 ---
 
+
+## Koch et al. — subgroup shift detection, MIDL 2022
+
+**Paper:** *Hidden in Plain Sight: Subgroup Shifts Escape OOD Detection*  
+Source: https://proceedings.mlr.press/v172/koch22a.html
+
+This paper is important for terminology but is **not a direct collision**. It studies a population where subgroup members are already part of the ID distribution and the **prevalence of those ID subgroups changes** between validation and deployment. It shows that individual-example OOD detection is fundamentally unsuitable for detecting such subgroup-composition shifts and instead advocates population-level two-sample testing.
+
+The present project asks a different question: given actual OOD examples, does a VLM OOD detector have systematically worse **detection performance on some semantic OOD subgroups**?
+
+Therefore distinguish:
+
+- **subgroup shift:** change in mixture proportions of already-ID subgroups;
+- **subgroup OOD performance:** detector AUROC/FPR95 computed on semantic subsets of OOD samples.
+
+The project should use the latter wording when possible to avoid conceptual confusion.
+
 # Current evidence-based conclusion
 
 ## What is already established
