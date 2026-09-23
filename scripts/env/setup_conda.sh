@@ -79,6 +79,31 @@ fi
 # dependencies (including faiss-gpu); the pilot runtime is pinned above.
 python -m pip install --no-deps -e "${OPENOOD_DIR}"
 
+# Immutable reference assets from the original baseline repositories.
+MCM_DIR="${THIRD_PARTY_DIR}/MCM"
+if [[ ! -d "${MCM_DIR}/.git" ]]; then
+  echo "[mcm] cloning ${MCM_REPO}"
+  git clone "${MCM_REPO}" "${MCM_DIR}"
+fi
+git -C "${MCM_DIR}" fetch --all --tags --prune
+git -C "${MCM_DIR}" checkout --detach "${MCM_COMMIT}"
+if [[ "$(git -C "${MCM_DIR}" rev-parse HEAD)" != "${MCM_COMMIT}" ]]; then
+  echo "MCM commit mismatch" >&2
+  exit 3
+fi
+
+NEGLABEL_DIR="${THIRD_PARTY_DIR}/NegLabel"
+if [[ ! -d "${NEGLABEL_DIR}/.git" ]]; then
+  echo "[neglabel] cloning ${NEGLABEL_REPO}"
+  git clone "${NEGLABEL_REPO}" "${NEGLABEL_DIR}"
+fi
+git -C "${NEGLABEL_DIR}" fetch --all --tags --prune
+git -C "${NEGLABEL_DIR}" checkout --detach "${NEGLABEL_COMMIT}"
+if [[ "$(git -C "${NEGLABEL_DIR}" rev-parse HEAD)" != "${NEGLABEL_COMMIT}" ]]; then
+  echo "NegLabel commit mismatch" >&2
+  exit 3
+fi
+
 echo
 echo "[verify] running environment smoke test"
 python "${ROOT_DIR}/scripts/env/verify_environment.py"
