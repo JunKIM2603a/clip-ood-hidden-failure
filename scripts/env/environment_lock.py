@@ -42,6 +42,7 @@ PACKAGES = [
     "datasets",
     "pytest",
     "clip",
+    "open-clip-torch",
     "openood-vlm",
 ]
 
