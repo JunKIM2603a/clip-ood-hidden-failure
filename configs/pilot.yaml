@@ -1,6 +1,6 @@
 experiment:
   name: mde_clip_ood_hidden_failure
-  protocol_version: "2026-09-23"
+  protocol_version: "2026-09-24-pre-score-feasibility-amendment"
   seed: 42
 
 model:
@@ -31,12 +31,19 @@ data:
       variant: mos_curated_10k
       expected_samples: 10000
       use_full_curated_split: true
+  secondary_ood_sources:
     - name: places
       variant: mos_curated_10k
       expected_samples: 10000
       use_full_curated_split: true
+      predefined_subgroup_primary_eligible: false
+      pre_score_mapping_coverage: 0.0178
+      reason: "Failed frozen >=90% image-to-concept mapping coverage before detector scoring."
 
   aggregate_reproduction_only:
+    - name: places
+      variant: mos_curated_10k
+      expected_samples: 10000
     - name: dtd
       variant: traditional_textures
       expected_samples: 5640
@@ -143,6 +150,10 @@ robust_aggregation:
 
 decision_gate:
   require_mapping_audit: true
+  minimum_primary_ood_sources_after_mapping_audit: 2
+  actual_primary_ood_sources_after_mapping_audit:
+    - inaturalist
+    - sun
   require_bootstrap_for_go: true
   outcomes:
     - GO
