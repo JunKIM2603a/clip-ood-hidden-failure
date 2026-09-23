@@ -23,6 +23,13 @@ These lookup tables are generated **before detector subgroup-score analysis**.
 
 ## iNaturalist MOS-110
 
-The design is frozen to **taxonomic order** (primary) and **family** (secondary), but the exact 110-species lookup table must be generated from an authoritative taxonomy snapshot before H1/H2 score analysis.
+- benchmark leaf list: MOS supplementary material (110 selected plant taxa);
+- primary hierarchy rank: taxonomic **order**;
+- secondary hierarchy rank: **family**;
+- exact mapping file: `inaturalist_mos110_taxonomy.csv`;
+- 50 taxa resolve as exact species in a public iNaturalist 2018 competition taxonomy metadata snapshot;
+- 42 additional taxa resolve through an unambiguous same-genus family/order in that snapshot;
+- the remaining 18 taxa were cross-checked against Kew Plants of the World Online (POWO) or NCBI Taxonomy on 2026-09-23;
+- all 110 benchmark taxa are mapped; each CSV row records its resolution method/source.
 
-Do not hand-label obscure taxa from memory. Record the taxonomy source and resolution date in the generated CSV. If a taxon cannot be resolved, keep it explicit as unresolved rather than guessing.
+The genus-level fallback is used only for family/order assignment: a botanical genus belongs to the same family/order for this grouping purpose. Taxonomic names/synonyms are not silently substituted in detector prompts; this mapping is only subgroup metadata.
