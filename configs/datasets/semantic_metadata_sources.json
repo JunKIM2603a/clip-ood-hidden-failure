@@ -1,0 +1,42 @@
+{
+  "version": 1,
+  "frozen_on": "2026-09-24",
+  "inaturalist": {
+    "metadata_kind": "inat2017_annotations",
+    "url": "https://ml-inat-competition-datasets.s3.amazonaws.com/2017/train_val2017.zip",
+    "archive_name": "train_val2017.zip",
+    "archive_md5": "444c835f6459867ad69fcb36478786e7",
+    "reference": "https://github.com/visipedia/inat_comp/tree/master/2017",
+    "join_policy": [
+      "exact_basename_unique"
+    ]
+  },
+  "sun": {
+    "metadata_kind": "sun397_partitions_union",
+    "url": "https://vision.princeton.edu/projects/2010/SUN/download/Partitions.zip",
+    "archive_name": "SUN397_Partitions.zip",
+    "reference": "https://vision.princeton.edu/projects/2010/SUN/",
+    "join_policy": [
+      "exact_basename_unique"
+    ],
+    "partition_files": {
+      "training_pattern": "Training_{index:02d}.txt",
+      "testing_pattern": "Testing_{index:02d}.txt",
+      "indices": [1,2,3,4,5,6,7,8,9,10]
+    }
+  },
+  "places": {
+    "metadata_kind": "places365_standard_filelist",
+    "filelist_url": "http://data.csail.mit.edu/places/places365/filelist_places365-standard.tar",
+    "filelist_archive_name": "filelist_places365-standard.tar",
+    "filelist_md5": "35a0585fee1fa656440f3ab298f8479c",
+    "categories_url": "https://raw.githubusercontent.com/CSAILVision/places365/master/categories_places365.txt",
+    "categories_name": "categories_places365.txt",
+    "categories_md5": "06c963b85866bd0649f97cb43dd16673",
+    "reference": "https://github.com/zhoubolei/places_devkit",
+    "join_policy": [
+      "exact_relative_path_if_preserved",
+      "exact_basename_if_unique"
+    ]
+  }
+}
