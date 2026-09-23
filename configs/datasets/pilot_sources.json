@@ -24,7 +24,10 @@
       ],
       "expected_images": 10000,
       "expected_leaf_concepts": 110,
-      "openood_google_drive_id": "1zfLfMvoUD0CUlKNnkk7LgxZZBnTBipdj"
+      "openood_google_drive_id": "1zfLfMvoUD0CUlKNnkk7LgxZZBnTBipdj",
+      "archive_md5": "5be6ea8aa027d7b631916427b32cb335",
+      "require_leaf_concepts_for_install": false,
+      "semantic_image_mapping_status": "pending"
     },
     "sun": {
       "role": "primary_ood",
@@ -36,7 +39,10 @@
       ],
       "expected_images": 10000,
       "expected_leaf_concepts": 50,
-      "openood_google_drive_id": "1ISK0STxWzWmg-_uUr4RQ8GSLFW7TZiKp"
+      "openood_google_drive_id": "1ISK0STxWzWmg-_uUr4RQ8GSLFW7TZiKp",
+      "archive_md5": "8469c3ada62211477954ec1be53b12d0",
+      "require_leaf_concepts_for_install": false,
+      "semantic_image_mapping_status": "pending"
     },
     "places": {
       "role": "primary_ood",
@@ -48,7 +54,10 @@
       ],
       "expected_images": 10000,
       "expected_leaf_concepts": 50,
-      "openood_google_drive_id": "1fZ8TbPC4JGqUCm-VtvrmkYxqRNp2PoB3"
+      "openood_google_drive_id": "1fZ8TbPC4JGqUCm-VtvrmkYxqRNp2PoB3",
+      "archive_md5": "b5cb5eba2754ae2a28beea8718db699a",
+      "require_leaf_concepts_for_install": false,
+      "semantic_image_mapping_status": "pending"
     },
     "dtd": {
       "role": "aggregate_reproduction_ood",
@@ -60,7 +69,10 @@
       ],
       "expected_images": 5640,
       "expected_leaf_concepts": 47,
-      "openood_google_drive_id": "1OSz1m3hHfVWbRdmMwKbUzoU8Hg9UKcam"
+      "openood_google_drive_id": "1OSz1m3hHfVWbRdmMwKbUzoU8Hg9UKcam",
+      "archive_md5": "fff73e5086ae6bdbea199a49dfb8a4c1",
+      "require_leaf_concepts_for_install": true,
+      "semantic_image_mapping_status": "available_from_directory_structure"
     }
   }
 }
