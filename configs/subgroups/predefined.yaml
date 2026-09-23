@@ -1,0 +1,92 @@
+version: "2026-09-23"
+status: frozen_for_minimum_decisive_experiment
+
+primary_eligibility:
+  minimum_images_per_group: 200
+  minimum_leaf_concepts_per_group: 2
+  minimum_eligible_groups_per_source: 3
+  minimum_mapping_coverage: 0.90
+
+multi_parent_policy:
+  mode: retain_all_official_memberships
+  groups_may_overlap: true
+  arbitrary_single_parent_tie_break: false
+
+datasets:
+  inaturalist:
+    benchmark_variant: mos_curated_10k
+    expected_samples: 10000
+    selected_leaf_concepts: 110
+    benchmark_scope_note: "MOS curated iNaturalist split contains plant taxa; do not use whole-iNaturalist kingdom/supercategory as the pilot grouping."
+    primary:
+      scheme: inaturalist_backbone_taxonomy
+      rank: order
+      source: "https://www.inaturalist.org/pages/taxonomy"
+    secondary:
+      scheme: inaturalist_taxonomy
+      rank: family
+    exact_mapping:
+      path: configs/subgroups/mappings/inaturalist_mos110_taxonomy.csv
+      must_exist_before_score_analysis: true
+      freeze_after_generation: true
+
+  sun:
+    benchmark_variant: mos_curated_10k
+    expected_samples: 10000
+    selected_leaf_concepts: 50
+    primary:
+      scheme: sun_official_scene_hierarchy
+      level: basic
+      expected_global_parent_nodes: 15
+      source: "https://vision.princeton.edu/projects/2010/SUN/"
+    secondary:
+      scheme: sun_official_scene_hierarchy
+      level: superordinate
+      expected_global_parent_nodes: 3
+      labels:
+        - indoor
+        - outdoor_natural
+        - outdoor_man_made
+    exact_mapping:
+      path: configs/subgroups/mappings/sun_mos50_hierarchy.csv
+      must_exist_before_score_analysis: true
+      freeze_after_generation: true
+
+  places:
+    benchmark_variant: mos_curated_10k
+    expected_samples: 10000
+    selected_leaf_concepts: 50
+    primary:
+      scheme: places365_official_scene_hierarchy
+      level: S16
+      expected_global_parent_nodes: 16
+      source: "https://github.com/CSAILVision/places365"
+    secondary:
+      scheme: places365_official_scene_hierarchy
+      level: S3
+      expected_global_parent_nodes: 3
+      labels:
+        - indoor
+        - outdoor_natural
+        - outdoor_man_made
+    diagnostic_only:
+      scheme: places365_indoor_outdoor
+      source_file: IO_places365.txt
+      allowed_for_primary_go_kill: false
+    exact_mapping:
+      path: configs/subgroups/mappings/places_mos50_hierarchy.csv
+      must_exist_before_score_analysis: true
+      freeze_after_generation: true
+
+mapping_audit:
+  required_before_h1_results: true
+  required_columns:
+    - dataset
+    - scheme
+    - group
+    - image_count
+    - leaf_concept_count
+    - mapping_coverage
+    - multi_parent_rate
+  demote_source_if_primary_criteria_fail: true
+  alter_thresholds_after_results: false
