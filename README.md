@@ -56,6 +56,36 @@ S_{robust}(x)=\mu(x)-\lambda\sigma(x)
 Lower prompt-score quantiles will also be evaluated.
 
 
+## Environment Setup
+
+Create and verify the experiment environment **before downloading datasets**.
+
+```bash
+git pull
+bash scripts/env/setup_conda.sh
+conda activate clip-ood
+python scripts/env/verify_environment.py
+```
+
+The pilot environment is pinned around:
+
+- Python 3.10
+- PyTorch 2.9.1
+- torchvision 0.24.1
+- CUDA 12.6 PyTorch wheel
+- NumPy 1.26.4
+- exact OpenOOD-VLM / OpenAI CLIP Git commits
+
+After the first trusted installation:
+
+```bash
+python scripts/env/environment_lock.py freeze
+```
+
+Commit the generated `configs/environment/pilot_environment_lock.json` so other PCs can verify the same critical software environment.
+
+See [docs/environment_setup.md](docs/environment_setup.md) for the rationale, GPU checks, recreation procedure, and multi-PC workflow.
+
 ## Dataset Setup
 
 Pilot datasets are installed reproducibly **without committing image data to Git**.
@@ -133,6 +163,9 @@ Aggregate AUROC is high
 ```text
 .
 ├── README.md
+├── environment.yml
+├── requirements/
+│   └── experiment.txt
 ├── docs/
 │   ├── problem_definition.md
 │   ├── hypotheses.md
@@ -140,9 +173,13 @@ Aggregate AUROC is high
 │   ├── novelty_collision_search.md
 │   ├── experimental_protocol.md
 │   ├── pilot_dataset_and_subgroups.md
+│   ├── environment_setup.md
 │   └── dataset_setup.md
 ├── configs/
 │   ├── pilot.yaml
+│   ├── environment/
+│   │   ├── versions.env
+│   │   └── pilot_environment_lock.json
 │   ├── datasets/
 │   │   ├── pilot_sources.json
 │   │   └── pilot_data_lock.json
@@ -154,6 +191,10 @@ Aggregate AUROC is high
 │   ├── metrics/
 │   └── analysis/
 ├── scripts/
+│   ├── env/
+│   │   ├── setup_conda.sh
+│   │   ├── verify_environment.py
+│   │   └── environment_lock.py
 │   └── data/
 │       ├── setup_datasets.py
 │       └── dataset_lock.py
