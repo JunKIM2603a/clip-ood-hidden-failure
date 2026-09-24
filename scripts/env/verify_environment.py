@@ -158,6 +158,7 @@ def main() -> None:
         "huggingface-hub",
         "datasets",
         "open-clip-torch",
+        "sentence-transformers",
     ]
     print("\ncritical packages:")
     missing = []
