@@ -149,3 +149,19 @@ Decision impact: no H1/H2 decision yet.
 - Gate decision: **PASS**
 - No formal reproduction tolerance had been preregistered; PASS is based on close aggregate and per-source agreement rather than a newly invented cutoff.
 - Next: ViT-B/32 backbone-specific NegLabel mining → B/32 aggregate sanity check → frozen H1 predefined subgroup analysis.
+
+## 2026-09-24 — Stage-1A ViT-B/32 aggregate sanity PASS
+
+- H1 subgroup detector results inspected before gate: **No**
+- MCM Traditional Four mean:
+  - FPR95: **45.25**
+  - AUROC: **89.87**
+  - pre-specified follow-up sanity range: FPR95 about 45.75–49.96, AUROC about 89.82–89.96
+- NegLabel Traditional Four mean:
+  - FPR95: **28.17**
+  - AUROC: **93.60**
+  - official anchor: FPR95 27.92, AUROC 93.67
+  - delta: +0.25 pp FPR95, -0.07 pp AUROC
+- Gate decision: **PASS**
+- No test-set tuning was performed in response to these aggregate results.
+- Next: frozen H1 predefined-semantic subgroup analysis on iNaturalist + SUN.
