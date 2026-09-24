@@ -97,3 +97,29 @@ Interpretation: iNaturalist is usable as a primary predefined-semantic H1 source
 - this decision was made before MCM/NegLabel subgroup scores were inspected.
 
 Decision impact: **no H1/H2 decision yet; feasibility gate passed with two primary OOD sources.**
+
+## 2026-09-24 — Pre-score H1 metric and alternate-grouping freeze
+
+- Detector subgroup scores inspected: **No**
+- Primary predefined H1 sources after mapping gate: **iNaturalist + SUN**
+- Places primary status: **demoted before detector scoring** (1.78% mapping coverage)
+- H1 FPR95 convention frozen:
+  - larger score = more ID-like
+  - one ImageNet-derived 95%-TPR threshold shared across all OOD subgroups
+  - threshold = ID 5th percentile with order-statistic rule `higher`
+  - subgroup-specific threshold retuning forbidden
+- H1 pilot bootstrap convention frozen:
+  - full ImageNet ID reference held fixed
+  - OOD samples bootstrapped
+  - aggregate-to-group gap bootstrap preserves source/group nesting
+- Alternate text-clustering definition frozen:
+  - model: `sentence-transformers/all-MiniLM-L6-v2`
+  - model revision: `1110a243fdf4706b3f48f1d95db1a4f5529b4d41`
+  - package: `sentence-transformers==6.1.0`
+  - normalized raw leaf-concept embeddings
+  - agglomerative clustering / average linkage / cosine metric
+  - k rule: `floor(sqrt(N)+0.5)`, bounded [3,12]
+  - expected k: iNaturalist=10, SUN=7, Places=7
+- These rules are frozen before MCM/NegLabel subgroup outcomes are inspected.
+
+Decision impact: no H1/H2 decision yet.
