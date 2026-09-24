@@ -138,6 +138,25 @@ Use both:
 
 Both definitions are required to test whether the effect depends on one grouping scheme.
 
+### Frozen text-embedding clustering
+
+The second grouping definition is frozen before detector subgroup results:
+
+- text encoder: `sentence-transformers/all-MiniLM-L6-v2`;
+- model revision: `1110a243fdf4706b3f48f1d95db1a4f5529b4d41`;
+- package: `sentence-transformers==6.1.0`;
+- input: raw leaf-concept/class name only;
+- embeddings: L2 normalized;
+- clustering: agglomerative, average linkage, cosine metric;
+- cluster-count rule: `floor(sqrt(N) + 0.5)`, bounded to [3, 12];
+- expected pilot k: iNaturalist=10, SUN=7, Places=7;
+- same group eligibility rules as predefined semantic groups.
+
+This encoder is deliberately independent of the CLIP detector so the robustness
+analysis does not define semantic groups using the same VLM representation being
+evaluated. The model revision and constructor `revision` parameter are pinned
+before H1 scores are inspected.
+
 ### Anti-artifact rules
 
 - freeze clustering algorithm, embedding model, number of clusters or selection rule before final test analysis;
@@ -163,6 +182,32 @@ For each OOD subgroup (g):
 - compute subgroup AUROC;
 - compute subgroup FPR95 using the same score orientation/convention as the aggregate benchmark.
 
+### Fixed-ID FPR95 convention
+
+Scores are oriented so larger means **more ID-like**.
+
+For each method/backbone run, derive **one** threshold from the full ImageNet ID
+reference:
+
+- threshold = 5th percentile of ID scores;
+- NumPy order-statistic rule = `method="higher"`;
+- this gives 95% ID TPR when scores are unique; ties may make realized TPR
+  slightly larger.
+
+The exact same threshold is then used for:
+
+- aggregate OOD FPR95;
+- every predefined semantic subgroup;
+- every text-cluster subgroup.
+
+**Do not recompute a 95%-TPR threshold separately for each subgroup.**
+
+AUROC for each subgroup uses the same full ID reference set.
+
+Pilot confidence intervals use OOD-sample bootstrap conditional on the fixed
+full ID reference. Aggregate-to-group gap bootstrap resamples the OOD source
+with group membership preserved.
+
 ### Worst group
 
 - worst-group FPR95 = maximum valid subgroup FPR95;
@@ -170,7 +215,7 @@ For each OOD subgroup (g):
 - aggregate-to-worst-group gap;
 - between-group dispersion.
 
-The score orientation and exact FPR95 convention must be unit-tested before experiments.
+The score orientation and exact FPR95 convention are unit-tested before experiments.
 
 ---
 
