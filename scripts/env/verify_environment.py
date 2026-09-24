@@ -54,6 +54,26 @@ def main() -> None:
     args = parser.parse_args()
 
     expected = parse_versions()
+    required_version_keys = {
+        "PYTHON_VERSION",
+        "TORCH_VERSION",
+        "TORCHVISION_VERSION",
+        "TORCH_CUDA",
+        "NUMPY_VERSION",
+        "OPEN_CLIP_TORCH_VERSION",
+        "HUGGINGFACE_HUB_VERSION",
+        "DATASETS_VERSION",
+        "SENTENCE_TRANSFORMERS_VERSION",
+        "TRANSFORMERS_VERSION",
+        "TOKENIZERS_VERSION",
+        "OPENOOD_COMMIT",
+    }
+    missing_version_keys = sorted(required_version_keys - set(expected))
+    if missing_version_keys:
+        fail(
+            "Missing key(s) in configs/environment/versions.env: "
+            + ", ".join(missing_version_keys)
+        )
     print("=== CLIP-OOD environment smoke test ===")
     print("python:", sys.version.replace("\n", " "))
     print("platform:", platform.platform())
