@@ -1,0 +1,73 @@
+{
+  "schema_version": 1,
+  "generated_before_detector_subgroup_results": true,
+  "embedding_model": "sentence-transformers/all-MiniLM-L6-v2",
+  "embedding_revision": "1110a243fdf4706b3f48f1d95db1a4f5529b4d41",
+  "package_version": "5.1.2",
+  "clustering": {
+    "algorithm": "agglomerative",
+    "linkage": "average",
+    "metric": "cosine",
+    "k_rule": "round_sqrt_num_leaf_concepts",
+    "round_rule": "floor_sqrt_plus_half",
+    "minimum_k": 3,
+    "maximum_k": 12,
+    "expected_k": {
+      "inaturalist": 10,
+      "sun": 7,
+      "places": 7
+    },
+    "random_state": null,
+    "note": "Agglomerative clustering is deterministic; no detector/image scores are used."
+  },
+  "datasets": [
+    {
+      "dataset": "inaturalist",
+      "leaf_concepts": 110,
+      "k": 10,
+      "cluster_leaf_counts": {
+        "cluster_00": 2,
+        "cluster_01": 92,
+        "cluster_02": 2,
+        "cluster_03": 2,
+        "cluster_04": 1,
+        "cluster_05": 1,
+        "cluster_06": 7,
+        "cluster_07": 1,
+        "cluster_08": 1,
+        "cluster_09": 1
+      },
+      "output": "configs/subgroups/mappings/text_clusters_inaturalist_minilm.csv"
+    },
+    {
+      "dataset": "sun",
+      "leaf_concepts": 50,
+      "k": 7,
+      "cluster_leaf_counts": {
+        "cluster_00": 21,
+        "cluster_01": 13,
+        "cluster_02": 6,
+        "cluster_03": 7,
+        "cluster_04": 1,
+        "cluster_05": 1,
+        "cluster_06": 1
+      },
+      "output": "configs/subgroups/mappings/text_clusters_sun_minilm.csv"
+    },
+    {
+      "dataset": "places",
+      "leaf_concepts": 50,
+      "k": 7,
+      "cluster_leaf_counts": {
+        "cluster_00": 21,
+        "cluster_01": 14,
+        "cluster_02": 1,
+        "cluster_03": 6,
+        "cluster_04": 3,
+        "cluster_05": 3,
+        "cluster_06": 2
+      },
+      "output": "configs/subgroups/mappings/text_clusters_places_minilm.csv"
+    }
+  ]
+}

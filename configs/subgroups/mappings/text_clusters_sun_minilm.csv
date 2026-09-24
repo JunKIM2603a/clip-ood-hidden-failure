@@ -1,0 +1,51 @@
+dataset,leaf_concept,text_cluster
+sun,badlands,cluster_00
+sun,bamboo forest,cluster_00
+sun,bayou,cluster_01
+sun,botanical garden,cluster_00
+sun,canal natural,cluster_01
+sun,canal urban,cluster_01
+sun,catacomb,cluster_02
+sun,cavern indoor,cluster_03
+sun,corn field,cluster_00
+sun,creek,cluster_01
+sun,crevasse,cluster_04
+sun,desert sand,cluster_00
+sun,desert vegetation,cluster_00
+sun,field cultivated,cluster_00
+sun,field wild,cluster_00
+sun,fishpond,cluster_02
+sun,forest broadleaf,cluster_00
+sun,forest needleleaf,cluster_00
+sun,forest path,cluster_00
+sun,forest road,cluster_00
+sun,formal garden,cluster_00
+sun,hayfield,cluster_01
+sun,herb garden,cluster_00
+sun,ice floe,cluster_02
+sun,ice shelf,cluster_02
+sun,iceberg,cluster_02
+sun,islet,cluster_02
+sun,marsh,cluster_01
+sun,ocean,cluster_01
+sun,orchard,cluster_00
+sun,pond,cluster_01
+sun,putting green,cluster_05
+sun,rainforest,cluster_00
+sun,rice paddy,cluster_06
+sun,river,cluster_01
+sun,rock arch,cluster_03
+sun,ski slope,cluster_03
+sun,sky,cluster_01
+sun,snowfield,cluster_01
+sun,swamp,cluster_01
+sun,topiary garden,cluster_00
+sun,tree farm,cluster_00
+sun,trench,cluster_03
+sun,vegetable garden,cluster_00
+sun,vineyard,cluster_00
+sun,waterfall block,cluster_03
+sun,waterfall fan,cluster_03
+sun,waterfall plunge,cluster_03
+sun,wave,cluster_01
+sun,wheat field,cluster_00

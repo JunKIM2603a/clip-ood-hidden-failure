@@ -1,0 +1,51 @@
+dataset,leaf_concept,text_cluster
+places,badlands,cluster_00
+places,bamboo forest,cluster_00
+places,canal (natural),cluster_01
+places,canal (urban),cluster_01
+places,corn field,cluster_00
+places,creek,cluster_01
+places,crevasse,cluster_02
+places,desert (sand),cluster_00
+places,desert (vegetation),cluster_00
+places,desert road,cluster_00
+places,field (cultivated),cluster_00
+places,field (wild),cluster_00
+places,field road,cluster_00
+places,forest (broadleaf),cluster_00
+places,forest path,cluster_00
+places,forest road,cluster_00
+places,formal garden,cluster_00
+places,glacier,cluster_03
+places,grotto,cluster_01
+places,hayfield,cluster_04
+places,ice floe,cluster_03
+places,ice shelf,cluster_03
+places,iceberg,cluster_03
+places,igloo,cluster_03
+places,islet,cluster_05
+places,japanese garden,cluster_00
+places,lagoon,cluster_01
+places,lawn,cluster_00
+places,marsh,cluster_04
+places,ocean,cluster_01
+places,orchard,cluster_00
+places,pond,cluster_01
+places,rainforest,cluster_00
+places,rice paddy,cluster_05
+places,river,cluster_01
+places,rock arch,cluster_01
+places,ski slope,cluster_03
+places,sky,cluster_06
+places,snowfield,cluster_04
+places,swamp,cluster_01
+places,swimming hole,cluster_01
+places,topiary garden,cluster_00
+places,tree farm,cluster_00
+places,trench,cluster_01
+places,tundra,cluster_05
+places,underwater (ocean deep),cluster_01
+places,vegetable garden,cluster_00
+places,waterfall,cluster_01
+places,wave,cluster_06
+places,wheat field,cluster_00
