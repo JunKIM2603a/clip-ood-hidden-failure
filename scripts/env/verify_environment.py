@@ -83,6 +83,20 @@ def main() -> None:
     if np.__version__ != expected["NUMPY_VERSION"]:
         fail(f"numpy {np.__version__} != {expected['NUMPY_VERSION']}")
 
+
+    expected_runtime_versions = {
+        "open-clip-torch": expected["OPEN_CLIP_TORCH_VERSION"],
+        "huggingface-hub": expected["HUGGINGFACE_HUB_VERSION"],
+        "datasets": expected["DATASETS_VERSION"],
+        "sentence-transformers": expected["SENTENCE_TRANSFORMERS_VERSION"],
+        "transformers": expected["TRANSFORMERS_VERSION"],
+        "tokenizers": expected["TOKENIZERS_VERSION"],
+    }
+    for package, wanted in expected_runtime_versions.items():
+        actual = version(package)
+        if actual != wanted:
+            fail(f"{package} {actual} != {wanted}")
+
     expected_cuda = expected["TORCH_CUDA"].removeprefix("cu")
     expected_cuda = expected_cuda[:-1] + "." + expected_cuda[-1]
     if torch.version.cuda and not torch.version.cuda.startswith(expected_cuda):
