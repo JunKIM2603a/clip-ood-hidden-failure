@@ -10,9 +10,10 @@ embedding:
   normalize_embeddings: true
 
 clustering:
-  algorithm: agglomerative
-  linkage: average
-  metric: cosine
+  algorithm: kmeans_on_l2_normalized_embeddings
+  metric_interpretation: "Squared Euclidean on unit vectors is monotonic with cosine distance."
+  random_state: 42
+  n_init: 50
   k_rule: round_sqrt_num_leaf_concepts
   round_rule: floor_sqrt_plus_half
   minimum_k: 3
@@ -21,8 +22,7 @@ clustering:
     inaturalist: 10
     sun: 7
     places: 7
-  random_state: null
-  note: "Agglomerative clustering is deterministic; no detector/image scores are used."
+  note: "Changed pre-subgroup-score from average-linkage agglomerative because the frozen leaf-only audit revealed a degenerate 92/110 iNaturalist giant cluster plus many singleton clusters. No subgroup detector scores had been inspected. KMeans is run on L2-normalized embeddings with fixed random_state and n_init."
 
 eligibility:
   minimum_images_per_group: 200
