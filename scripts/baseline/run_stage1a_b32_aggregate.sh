@@ -79,5 +79,5 @@ echo "  cat results/tables/reproduction_ViT-B-32_mcm.csv"
 echo "  cat results/tables/reproduction_ViT-B-32_neglabel.csv"
 echo
 echo "Reference means (sanity anchors, not post-hoc tuning targets):"
-echo "  MCM B/32:      AUROC ~89.96, FPR95 ~49.96"
+echo "  MCM B/32 follow-up reproductions: AUROC ~89.82-89.96, FPR95 ~45.75-49.96"
 echo "  NegLabel B/32: AUROC  93.67, FPR95  27.92"
