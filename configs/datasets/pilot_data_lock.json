@@ -1,5 +1,58 @@
 {
-  "status": "pending_first_install",
+  "status": "frozen",
   "schema_version": 1,
-  "note": "After the first verified installation run: python scripts/data/dataset_lock.py freeze; then review and commit this file."
+  "frozen_at": "2026-09-24T11:00:48.642853+00:00",
+  "datasets": {
+    "imagenet": {
+      "dataset": "imagenet",
+      "images": 50000,
+      "expected_images": 50000,
+      "classes": 1000,
+      "expected_classes": 1000,
+      "source_kind": "huggingface_gated",
+      "manifest_sha256": "dd3cb31be2c0411e8f0bcc9a58cec704d2fed17ba2440f2a296064f7ea2a4310",
+      "hf_repo": "ILSVRC/imagenet-1k",
+      "hf_revision": "49e2ee26f3810fb5a7536bbf732a7b07389a47b5"
+    },
+    "inaturalist": {
+      "dataset": "inaturalist",
+      "images": 10000,
+      "expected_images": 10000,
+      "leaf_concepts": 0,
+      "expected_leaf_concepts": 110,
+      "source_kind": "existing_install",
+      "source_archive_sha256": "1699d991bc43325717e2dec0781713227f5435b0195caeffa944472b96ba5b52",
+      "manifest_sha256": "d4fef7dbc97bd1a0ce3f6817e8548f1474c700807fdc6160412c1a1130af451f"
+    },
+    "sun": {
+      "dataset": "sun",
+      "images": 10000,
+      "expected_images": 10000,
+      "leaf_concepts": 0,
+      "expected_leaf_concepts": 50,
+      "source_kind": "existing_install",
+      "source_archive_sha256": "b6c0cbc24ca324e1c9e6669d5f6aa06d3d047f185b8054a2bddbe728ea81a711",
+      "manifest_sha256": "0e30cfa8b894b737837d99a1fb4dc3edaa8a440c4969ed6847c017e19173cca7"
+    },
+    "places": {
+      "dataset": "places",
+      "images": 10000,
+      "expected_images": 10000,
+      "leaf_concepts": 0,
+      "expected_leaf_concepts": 50,
+      "source_kind": "existing_install",
+      "source_archive_sha256": "b44929a1d5a8f9776249c0114efc9a6537a39b03a6d3cca131b9ec5751d1a59a",
+      "manifest_sha256": "0aca93261561c1c006f572c20aa0d16893420db9a0f594699738b023ecc217e9"
+    },
+    "dtd": {
+      "dataset": "dtd",
+      "images": 5640,
+      "expected_images": 5640,
+      "leaf_concepts": 47,
+      "expected_leaf_concepts": 47,
+      "source_kind": "existing_install",
+      "source_archive_sha256": "e42855a52a4950a3b59612834602aa253914755c95b0cff9ead6d07395f8e205",
+      "manifest_sha256": "9b28f0d845e318e87966702e4d84332c89aea05b75ae4b68eb94770e26ce80f1"
+    }
+  }
 }
