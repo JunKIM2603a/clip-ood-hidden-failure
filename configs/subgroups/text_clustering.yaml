@@ -1,0 +1,44 @@
+version: "2026-09-24"
+status: frozen_before_detector_subgroup_results
+
+embedding:
+  library: sentence-transformers
+  package_version: "6.1.0"
+  model: sentence-transformers/all-MiniLM-L6-v2
+  revision: 1110a243fdf4706b3f48f1d95db1a4f5529b4d41
+  input_text: raw_leaf_concept_name
+  normalize_embeddings: true
+
+clustering:
+  algorithm: agglomerative
+  linkage: average
+  metric: cosine
+  k_rule: round_sqrt_num_leaf_concepts
+  round_rule: floor_sqrt_plus_half
+  minimum_k: 3
+  maximum_k: 12
+  expected_k:
+    inaturalist: 10
+    sun: 7
+    places: 7
+  random_state: null
+  note: "Agglomerative clustering is deterministic; no detector/image scores are used."
+
+eligibility:
+  minimum_images_per_group: 200
+  minimum_leaf_concepts_per_group: 2
+  minimum_mapping_coverage: 0.90
+  minimum_eligible_groups_per_source: 3
+
+scope:
+  primary_sources:
+    - inaturalist
+    - sun
+  secondary_sources:
+    - places
+  places_note: "Places remains non-primary because image-to-concept coverage failed the frozen 90% feasibility gate."
+
+anti_posthoc:
+  cluster_definition_frozen_before_h1_results: true
+  do_not_change_k_after_viewing_detector_metrics: true
+  do_not_merge_bad_clusters_after_viewing_detector_metrics: true
