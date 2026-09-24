@@ -38,3 +38,7 @@ third_party/
 .env
 .env.*
 *.local.env
+
+# Generated hypothesis-analysis outputs
+results/h1_predefined/
+results/h1_text_clusters/
