@@ -165,3 +165,23 @@ Decision impact: no H1/H2 decision yet.
 - Gate decision: **PASS**
 - No test-set tuning was performed in response to these aggregate results.
 - Next: frozen H1 predefined-semantic subgroup analysis on iNaturalist + SUN.
+
+## 2026-09-24 — Pre-subgroup text-cluster feasibility amendment
+
+- Detector subgroup scores inspected: **No**
+- Aggregate Stage-1A results had been inspected, but no semantic subgroup performance was opened.
+- Frozen MiniLM agglomerative mapping audit revealed a degenerate iNaturalist partition:
+  - one cluster contained 92 / 110 leaf concepts;
+  - several clusters were singletons.
+- This structure risks failing the already-frozen >=3 eligible-groups rule independently of detector behavior.
+- Amendment before any subgroup detector result:
+  - embedding model/revision unchanged;
+  - raw leaf-concept input unchanged;
+  - k rule unchanged;
+  - eligibility thresholds unchanged;
+  - clustering changed to KMeans on L2-normalized embeddings;
+  - random_state=42, n_init=50;
+  - an image-level eligibility audit must pass for iNaturalist and SUN before H1 outputs are opened.
+- Rationale: repair an unsupervised grouping-feasibility defect, not optimize detector outcomes.
+
+Decision impact: no H1/H2 decision yet.
