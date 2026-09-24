@@ -5,9 +5,10 @@
   "embedding_revision": "1110a243fdf4706b3f48f1d95db1a4f5529b4d41",
   "package_version": "5.1.2",
   "clustering": {
-    "algorithm": "agglomerative",
-    "linkage": "average",
-    "metric": "cosine",
+    "algorithm": "kmeans_on_l2_normalized_embeddings",
+    "metric_interpretation": "Squared Euclidean on unit vectors is monotonic with cosine distance.",
+    "random_state": 42,
+    "n_init": 50,
     "k_rule": "round_sqrt_num_leaf_concepts",
     "round_rule": "floor_sqrt_plus_half",
     "minimum_k": 3,
@@ -17,8 +18,7 @@
       "sun": 7,
       "places": 7
     },
-    "random_state": null,
-    "note": "Agglomerative clustering is deterministic; no detector/image scores are used."
+    "note": "Changed pre-subgroup-score from average-linkage agglomerative because the frozen leaf-only audit revealed a degenerate 92/110 iNaturalist giant cluster plus many singleton clusters. No subgroup detector scores had been inspected. KMeans is run on L2-normalized embeddings with fixed random_state and n_init."
   },
   "datasets": [
     {
@@ -26,48 +26,204 @@
       "leaf_concepts": 110,
       "k": 10,
       "cluster_leaf_counts": {
-        "cluster_00": 2,
-        "cluster_01": 92,
-        "cluster_02": 2,
-        "cluster_03": 2,
-        "cluster_04": 1,
-        "cluster_05": 1,
-        "cluster_06": 7,
-        "cluster_07": 1,
-        "cluster_08": 1,
-        "cluster_09": 1
+        "cluster_00": 7,
+        "cluster_01": 32,
+        "cluster_02": 17,
+        "cluster_03": 14,
+        "cluster_04": 3,
+        "cluster_05": 3,
+        "cluster_06": 9,
+        "cluster_07": 11,
+        "cluster_08": 9,
+        "cluster_09": 5
       },
-      "output": "configs/subgroups/mappings/text_clusters_inaturalist_minilm.csv"
+      "output": "configs/subgroups/mappings/text_clusters_inaturalist_minilm.csv",
+      "pre_score_image_audit": {
+        "status": "audited",
+        "total_images": 10000,
+        "mapped_images": 10000,
+        "mapping_coverage": 1.0,
+        "cluster_image_counts": {
+          "cluster_00": 659,
+          "cluster_01": 2723,
+          "cluster_02": 1463,
+          "cluster_03": 1810,
+          "cluster_04": 817,
+          "cluster_05": 144,
+          "cluster_06": 654,
+          "cluster_07": 829,
+          "cluster_08": 576,
+          "cluster_09": 325
+        },
+        "cluster_leaf_counts": {
+          "cluster_00": 7,
+          "cluster_01": 32,
+          "cluster_02": 17,
+          "cluster_03": 14,
+          "cluster_04": 3,
+          "cluster_05": 3,
+          "cluster_06": 9,
+          "cluster_07": 11,
+          "cluster_08": 9,
+          "cluster_09": 5
+        },
+        "eligible_clusters": {
+          "cluster_00": {
+            "images": 659,
+            "leaf_concepts": 7
+          },
+          "cluster_01": {
+            "images": 2723,
+            "leaf_concepts": 32
+          },
+          "cluster_02": {
+            "images": 1463,
+            "leaf_concepts": 17
+          },
+          "cluster_03": {
+            "images": 1810,
+            "leaf_concepts": 14
+          },
+          "cluster_04": {
+            "images": 817,
+            "leaf_concepts": 3
+          },
+          "cluster_06": {
+            "images": 654,
+            "leaf_concepts": 9
+          },
+          "cluster_07": {
+            "images": 829,
+            "leaf_concepts": 11
+          },
+          "cluster_08": {
+            "images": 576,
+            "leaf_concepts": 9
+          },
+          "cluster_09": {
+            "images": 325,
+            "leaf_concepts": 5
+          }
+        },
+        "eligible_cluster_count": 9,
+        "primary_scope": true,
+        "primary_eligible": true
+      }
     },
     {
       "dataset": "sun",
       "leaf_concepts": 50,
       "k": 7,
       "cluster_leaf_counts": {
-        "cluster_00": 21,
-        "cluster_01": 13,
-        "cluster_02": 6,
-        "cluster_03": 7,
-        "cluster_04": 1,
-        "cluster_05": 1,
-        "cluster_06": 1
+        "cluster_00": 12,
+        "cluster_01": 10,
+        "cluster_02": 8,
+        "cluster_03": 3,
+        "cluster_04": 6,
+        "cluster_05": 7,
+        "cluster_06": 4
       },
-      "output": "configs/subgroups/mappings/text_clusters_sun_minilm.csv"
+      "output": "configs/subgroups/mappings/text_clusters_sun_minilm.csv",
+      "pre_score_image_audit": {
+        "status": "audited",
+        "total_images": 10000,
+        "mapped_images": 10000,
+        "mapping_coverage": 1.0,
+        "cluster_image_counts": {
+          "cluster_00": 2268,
+          "cluster_01": 2143,
+          "cluster_02": 2055,
+          "cluster_03": 528,
+          "cluster_04": 1124,
+          "cluster_05": 1244,
+          "cluster_06": 638
+        },
+        "cluster_leaf_counts": {
+          "cluster_00": 12,
+          "cluster_01": 10,
+          "cluster_02": 8,
+          "cluster_03": 3,
+          "cluster_04": 6,
+          "cluster_05": 7,
+          "cluster_06": 4
+        },
+        "eligible_clusters": {
+          "cluster_00": {
+            "images": 2268,
+            "leaf_concepts": 12
+          },
+          "cluster_01": {
+            "images": 2143,
+            "leaf_concepts": 10
+          },
+          "cluster_02": {
+            "images": 2055,
+            "leaf_concepts": 8
+          },
+          "cluster_03": {
+            "images": 528,
+            "leaf_concepts": 3
+          },
+          "cluster_04": {
+            "images": 1124,
+            "leaf_concepts": 6
+          },
+          "cluster_05": {
+            "images": 1244,
+            "leaf_concepts": 7
+          },
+          "cluster_06": {
+            "images": 638,
+            "leaf_concepts": 4
+          }
+        },
+        "eligible_cluster_count": 7,
+        "primary_scope": true,
+        "primary_eligible": true
+      }
     },
     {
       "dataset": "places",
       "leaf_concepts": 50,
       "k": 7,
       "cluster_leaf_counts": {
-        "cluster_00": 21,
-        "cluster_01": 14,
-        "cluster_02": 1,
-        "cluster_03": 6,
-        "cluster_04": 3,
-        "cluster_05": 3,
-        "cluster_06": 2
+        "cluster_00": 5,
+        "cluster_01": 6,
+        "cluster_02": 8,
+        "cluster_03": 7,
+        "cluster_04": 11,
+        "cluster_05": 6,
+        "cluster_06": 7
       },
-      "output": "configs/subgroups/mappings/text_clusters_places_minilm.csv"
+      "output": "configs/subgroups/mappings/text_clusters_places_minilm.csv",
+      "pre_score_image_audit": {
+        "status": "audited",
+        "total_images": 10000,
+        "mapped_images": 178,
+        "mapping_coverage": 0.0178,
+        "cluster_image_counts": {
+          "cluster_00": 15,
+          "cluster_01": 30,
+          "cluster_02": 27,
+          "cluster_03": 24,
+          "cluster_04": 47,
+          "cluster_05": 18,
+          "cluster_06": 17
+        },
+        "cluster_leaf_counts": {
+          "cluster_00": 5,
+          "cluster_01": 6,
+          "cluster_02": 8,
+          "cluster_03": 7,
+          "cluster_04": 11,
+          "cluster_05": 5,
+          "cluster_06": 6
+        },
+        "eligible_clusters": {},
+        "eligible_cluster_count": 0,
+        "primary_scope": false,
+        "primary_eligible": false
+      }
     }
   ]
 }
