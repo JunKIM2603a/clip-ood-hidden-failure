@@ -52,11 +52,11 @@ GPU0: MCM aggregate score
 GPU1: NegLabel aggregate score
 ```
 
-Published sanity anchors for CLIP ViT-B/32 ImageNet Traditional Four:
+Published sanity anchors for CLIP ViT-B/32 ImageNet Traditional Four (MCM varies modestly across follow-up reproductions):
 
 | Method | Mean AUROC | Mean FPR95 |
 | --- | ---: | ---: |
-| MCM | about 89.96 | about 49.96 |
+| MCM | about 89.82–89.96 | about 45.75–49.96 |
 | NegLabel | 93.67 | 27.92 |
 
 These values are comparison anchors only. They are not used for tuning prompts, negative labels, temperature, subgroup definitions, or test thresholds.
