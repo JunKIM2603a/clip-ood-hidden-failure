@@ -11,6 +11,23 @@ echo "[gate] environment and score formulas"
 python scripts/env/verify_environment.py
 pytest -q tests/test_baseline_scores.py tests/test_h1_metrics.py
 
+echo "[gate] frozen data/subgroup definitions"
+python scripts/data/dataset_lock.py check
+for f in \
+  configs/subgroups/text_clustering_manifest.json \
+  configs/subgroups/mappings/text_clusters_inaturalist_minilm.csv \
+  configs/subgroups/mappings/text_clusters_sun_minilm.csv
+do
+  if [[ ! -f "${f}" ]]; then
+    echo "[FAIL] missing frozen subgroup artifact: ${f}" >&2
+    exit 2
+  fi
+  git ls-files --error-unmatch "${f}" >/dev/null 2>&1 || {
+    echo "[FAIL] subgroup artifact is not committed: ${f}" >&2
+    exit 2
+  }
+done
+
 echo "[1/4] GPU0: ImageNet B/32 features"
 CUDA_VISIBLE_DEVICES=0 python scripts/baseline/prepare_features.py \
   --backbone "${BACKBONE}" \
