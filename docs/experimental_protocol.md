@@ -147,9 +147,12 @@ The second grouping definition is frozen before detector subgroup results:
 - package: `sentence-transformers==5.1.2`;
 - input: raw leaf-concept/class name only;
 - embeddings: L2 normalized;
-- clustering: agglomerative, average linkage, cosine metric;
+- clustering: KMeans on L2-normalized MiniLM embeddings;
+- distance interpretation: squared Euclidean distance on unit vectors is monotonic with cosine distance;
+- deterministic settings: `random_state=42`, `n_init=50`;
 - cluster-count rule: `floor(sqrt(N) + 0.5)`, bounded to [3, 12];
 - expected pilot k: iNaturalist=10, SUN=7, Places=7;
+- feasibility amendment: the earlier average-linkage agglomerative partition was rejected **before any subgroup detector result was inspected** because iNaturalist collapsed 92/110 leaf concepts into one cluster with multiple singleton clusters; the embedding model/revision, k rule, and eligibility thresholds were unchanged.
 - same group eligibility rules as predefined semantic groups.
 
 This encoder is deliberately independent of the CLIP detector so the robustness
