@@ -46,8 +46,19 @@ if ! git diff --quiet -- \
   configs/subgroups/mappings/text_clusters_sun_minilm.csv \
   configs/subgroups/mappings/text_clusters_places_minilm.csv
 then
-  echo "[FAIL] frozen data/subgroup definitions have uncommitted changes" >&2
-  echo "Review and commit them before running detector reproduction." >&2
+  echo "[FAIL] frozen data/subgroup definitions have unstaged changes" >&2
+  exit 2
+fi
+if ! git diff --cached --quiet -- \
+  configs/datasets/pilot_data_lock.json \
+  configs/subgroups/text_clustering.yaml \
+  configs/subgroups/text_clustering_manifest.json \
+  configs/subgroups/mappings/text_clusters_inaturalist_minilm.csv \
+  configs/subgroups/mappings/text_clusters_sun_minilm.csv \
+  configs/subgroups/mappings/text_clusters_places_minilm.csv
+then
+  echo "[FAIL] frozen data/subgroup definitions are staged but not committed" >&2
+  echo "Commit them before running detector reproduction." >&2
   exit 2
 fi
 
