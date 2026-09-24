@@ -144,7 +144,7 @@ The second grouping definition is frozen before detector subgroup results:
 
 - text encoder: `sentence-transformers/all-MiniLM-L6-v2`;
 - model revision: `1110a243fdf4706b3f48f1d95db1a4f5529b4d41`;
-- package: `sentence-transformers==6.1.0`;
+- package: `sentence-transformers==5.1.2`;
 - input: raw leaf-concept/class name only;
 - embeddings: L2 normalized;
 - clustering: agglomerative, average linkage, cosine metric;
