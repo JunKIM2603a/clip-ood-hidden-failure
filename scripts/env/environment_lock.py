@@ -46,6 +46,8 @@ PACKAGES = [
     "clip",
     "open-clip-torch",
     "sentence-transformers",
+    "transformers",
+    "tokenizers",
     "openood-vlm",
 ]
 
