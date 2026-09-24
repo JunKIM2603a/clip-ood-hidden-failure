@@ -92,9 +92,15 @@ subgroups:
     minimum_mapping_coverage: 0.90
   text_embedding_cluster:
     enabled: true
-    embedding_model: TBD
-    algorithm: TBD
-    num_clusters: TBD
+    config: configs/subgroups/text_clustering.yaml
+    embedding_model: sentence-transformers/all-MiniLM-L6-v2
+    embedding_revision: 1110a243fdf4706b3f48f1d95db1a4f5529b4d41
+    algorithm: agglomerative_average_cosine
+    num_clusters_rule: round_sqrt_num_leaf_concepts
+    expected_num_clusters:
+      inaturalist: 10
+      sun: 7
+      places: 7
   freeze_definition_before_final_analysis: true
 
 metrics:
