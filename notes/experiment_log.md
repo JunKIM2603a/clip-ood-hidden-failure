@@ -136,3 +136,16 @@ Decision impact: no H1/H2 decision yet.
   - use `sentence-transformers==5.1.2`, `transformers==4.57.1`, `tokenizers==0.22.1`;
   - keep the exact same embedding model, model revision, clustering algorithm, k rule, and subgroup eligibility rules.
 - Research-definition impact: **none**; runtime dependency compatibility only.
+
+## 2026-09-24 — Stage-0 aggregate reproduction PASS
+
+- Subgroup detector scores inspected: **No**
+- Backbone: CLIP ViT-B/16
+- Traditional Four aggregate reproduction:
+  - MCM ours: mean FPR95 **43.04**, mean AUROC **90.74**
+  - MCM reference: FPR95 **42.74**, AUROC **90.77**
+  - NegLabel ours: mean FPR95 **25.63**, mean AUROC **94.16**
+  - NegLabel reference: FPR95 **25.40**, AUROC **94.21**
+- Gate decision: **PASS**
+- No formal reproduction tolerance had been preregistered; PASS is based on close aggregate and per-source agreement rather than a newly invented cutoff.
+- Next: ViT-B/32 backbone-specific NegLabel mining → B/32 aggregate sanity check → frozen H1 predefined subgroup analysis.
