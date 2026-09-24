@@ -115,7 +115,7 @@ Decision impact: **no H1/H2 decision yet; feasibility gate passed with two prima
 - Alternate text-clustering definition frozen:
   - model: `sentence-transformers/all-MiniLM-L6-v2`
   - model revision: `1110a243fdf4706b3f48f1d95db1a4f5529b4d41`
-  - package: `sentence-transformers==6.1.0`
+  - package: `sentence-transformers==5.1.2`
   - normalized raw leaf-concept embeddings
   - agglomerative clustering / average linkage / cosine metric
   - k rule: `floor(sqrt(N)+0.5)`, bounded [3,12]
@@ -123,3 +123,16 @@ Decision impact: **no H1/H2 decision yet; feasibility gate passed with two prima
 - These rules are frozen before MCM/NegLabel subgroup outcomes are inspected.
 
 Decision impact: no H1/H2 decision yet.
+
+## 2026-09-24 — Dependency compatibility amendment before H1 scoring
+
+- Detector subgroup scores inspected: **No**
+- Previous text-clustering runtime pin: `sentence-transformers==6.1.0`
+- Conflict observed during environment reconstruction:
+  - existing `huggingface-hub==0.35.3`
+  - `sentence-transformers==6.1.0` requires `huggingface-hub>=1.3.0,<2.0.0`
+- Resolution:
+  - keep the existing tested Hugging Face stack (`huggingface-hub==0.35.3`, `datasets==4.1.1`);
+  - use `sentence-transformers==5.1.2`, `transformers==4.57.1`, `tokenizers==0.22.1`;
+  - keep the exact same embedding model, model revision, clustering algorithm, k rule, and subgroup eligibility rules.
+- Research-definition impact: **none**; runtime dependency compatibility only.
