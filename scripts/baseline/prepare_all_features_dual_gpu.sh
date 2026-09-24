@@ -9,6 +9,7 @@ NUM_WORKERS="${NUM_WORKERS:-8}"
 
 echo "[preflight] verifying datasets"
 python scripts/data/setup_datasets.py --datasets all --verify-only
+python scripts/data/verify_imagenet_manifest.py
 
 echo "[preflight] running frozen metric / baseline tests"
 pytest -q \
