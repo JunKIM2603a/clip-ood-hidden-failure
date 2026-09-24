@@ -55,19 +55,34 @@ def official_selected_negative_prompts() -> tuple[list[str], str]:
 
 
 @torch.no_grad()
-def prepare_neglabel_text(model, device: torch.device):
+def prepare_neglabel_text(model, device: torch.device, backbone: str = "ViT-B/16"):
     positive = official_positive_prompts()
-    negative, source_sha256 = official_selected_negative_prompts()
+
+    if backbone == "ViT-B/16":
+        negative, source_sha256 = official_selected_negative_prompts()
+        negative_source = "official_provided_selected_list"
+        mining_metadata = None
+    else:
+        from .neglabel_mining import load_mined_negative_prompts
+
+        negative, mining_metadata = load_mined_negative_prompts(backbone)
+        source_sha256 = mining_metadata["selected_prompt_file_sha256"]
+        negative_source = "backbone_specific_dynamic_mining"
+
     pos_feat = encode_texts(model, positive, device)
     neg_feat = encode_texts(model, negative, device)
-    return pos_feat, neg_feat, {
+    metadata = {
         "positive_prompt_index": 85,
         "negative_prompt_file_sha256": source_sha256,
         "negative_prompt_count": len(negative),
+        "negative_source": negative_source,
         "ngroup": 100,
         "temperature": 1.0,
         "logit_scale": 100.0,
     }
+    if mining_metadata is not None:
+        metadata["mining_metadata"] = mining_metadata
+    return pos_feat, neg_feat, metadata
 
 
 @torch.no_grad()
