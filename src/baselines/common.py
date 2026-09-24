@@ -3,6 +3,7 @@ from __future__ import annotations
 import csv
 import hashlib
 import json
+import os
 import subprocess
 from pathlib import Path
 
@@ -14,7 +15,7 @@ from torch.utils.data import DataLoader, Dataset
 from tqdm import tqdm
 
 ROOT = Path(__file__).resolve().parents[2]
-DATA_ROOT = ROOT / "data"
+DATA_ROOT = Path(os.environ.get("CLIP_OOD_DATA_ROOT", ROOT / "data")).expanduser().resolve()
 THIRD_PARTY = ROOT / "third_party"
 
 EXPECTED_MCM_COMMIT = "ea7130f851e7d462cacd21f0e87a127705700bd9"
