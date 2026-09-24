@@ -87,13 +87,11 @@ def main():
             "reference": "deeplearning-wisc/MCM",
         })
     else:
-        if args.backbone != "ViT-B/16":
-            raise RuntimeError(
-                "Official pre-selected NegLabel 10k labels are reproduced first "
-                "with ViT-B/16. For ViT-B/32, generate backbone-specific negative "
-                "labels in the later pilot stage instead of reusing B/16 selection."
-            )
-        pos_text, neg_text, neg_meta = prepare_neglabel_text(model, device)
+        pos_text, neg_text, neg_meta = prepare_neglabel_text(
+            model,
+            device,
+            backbone=args.backbone,
+        )
         batch_size = args.score_batch_size or 512
 
         def score_fn(features):
