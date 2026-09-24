@@ -10,7 +10,7 @@ from pathlib import Path
 
 import numpy as np
 import yaml
-from sklearn.cluster import AgglomerativeClustering
+from sklearn.cluster import KMeans
 from sentence_transformers import SentenceTransformer
 
 ROOT = Path(__file__).resolve().parents[2]
@@ -78,10 +78,10 @@ def build_one(dataset, model, cfg):
         normalize_embeddings=True,
     )
     embeddings = np.asarray(embeddings, dtype=np.float64)
-    clustering = AgglomerativeClustering(
+    clustering = KMeans(
         n_clusters=k,
-        metric="cosine",
-        linkage="average",
+        random_state=int(cfg["clustering"]["random_state"]),
+        n_init=int(cfg["clustering"]["n_init"]),
     )
     raw_labels = clustering.fit_predict(embeddings)
     cluster_ids = stable_cluster_ids(names, raw_labels)
@@ -105,6 +105,78 @@ def build_one(dataset, model, cfg):
         "cluster_leaf_counts": dict(sorted(counts.items())),
         "output": str(out.relative_to(ROOT)),
     }
+
+
+def audit_image_level_clusters(dataset, mapping_result, cfg, data_root):
+    semantic_path = (
+        data_root
+        / "semantic_labels"
+        / "{}_image_semantic_labels.csv".format(dataset)
+    )
+    if not semantic_path.exists():
+        return {
+            "status": "not_audited_missing_semantic_labels",
+            "semantic_path": str(semantic_path),
+        }
+
+    cluster_path = ROOT / mapping_result["output"]
+    with cluster_path.open("r", newline="", encoding="utf-8") as f:
+        leaf_to_cluster = {
+            row["leaf_concept"].strip(): row["text_cluster"].strip()
+            for row in csv.DictReader(f)
+        }
+
+    image_counts = {}
+    leaf_sets = {}
+    total = 0
+    mapped = 0
+    with semantic_path.open("r", newline="", encoding="utf-8") as f:
+        for row in csv.DictReader(f):
+            total += 1
+            leaf = row.get("leaf_concept", "").strip()
+            cluster = leaf_to_cluster.get(leaf)
+            if not cluster:
+                continue
+            mapped += 1
+            image_counts[cluster] = image_counts.get(cluster, 0) + 1
+            leaf_sets.setdefault(cluster, set()).add(leaf)
+
+    rules = cfg["eligibility"]
+    eligible = {}
+    for cluster in sorted(image_counts):
+        n_images = image_counts[cluster]
+        n_leafs = len(leaf_sets.get(cluster, set()))
+        if (
+            n_images >= int(rules["minimum_images_per_group"])
+            and n_leafs >= int(rules["minimum_leaf_concepts_per_group"])
+        ):
+            eligible[cluster] = {
+                "images": n_images,
+                "leaf_concepts": n_leafs,
+            }
+
+    coverage = mapped / total if total else 0.0
+    primary_scope = dataset in set(cfg["scope"]["primary_sources"])
+    primary_eligible = (
+        coverage >= float(rules["minimum_mapping_coverage"])
+        and len(eligible) >= int(rules["minimum_eligible_groups_per_source"])
+    )
+
+    return {
+        "status": "audited",
+        "total_images": total,
+        "mapped_images": mapped,
+        "mapping_coverage": coverage,
+        "cluster_image_counts": dict(sorted(image_counts.items())),
+        "cluster_leaf_counts": {
+            k: len(v) for k, v in sorted(leaf_sets.items())
+        },
+        "eligible_clusters": eligible,
+        "eligible_cluster_count": len(eligible),
+        "primary_scope": primary_scope,
+        "primary_eligible": primary_eligible if primary_scope else False,
+    }
+
 
 
 def main():
@@ -144,13 +216,25 @@ def main():
     results = []
     for dataset in args.datasets:
         result = build_one(dataset, model, cfg)
+        result["pre_score_image_audit"] = audit_image_level_clusters(
+            dataset,
+            result,
+            cfg,
+            data_root,
+        )
         results.append(result)
+        audit = result["pre_score_image_audit"]
         print(
-            "[{}] leaf={} k={} -> {}".format(
+            "[{}] leaf={} k={} eligible_clusters={} primary={}".format(
                 dataset,
                 result["leaf_concepts"],
                 result["k"],
-                result["output"],
+                audit.get("eligible_cluster_count", "NA"),
+                (
+                    "YES"
+                    if audit.get("primary_eligible", False)
+                    else ("NO" if audit.get("primary_scope", False) else "SECONDARY")
+                ),
             )
         )
 
@@ -169,6 +253,21 @@ def main():
         encoding="utf-8",
     )
     print("[manifest]", path)
+
+    failed_primary = [
+        r["dataset"]
+        for r in results
+        if r["dataset"] in set(cfg["scope"]["primary_sources"])
+        and not r["pre_score_image_audit"].get("primary_eligible", False)
+    ]
+    if failed_primary:
+        raise SystemExit(
+            "Text-cluster pre-score feasibility failed for primary source(s): "
+            + ", ".join(failed_primary)
+            + ". Do not open detector subgroup results; review clustering feasibility first."
+        )
+
+    print("Text-cluster pre-score feasibility PASSED for all primary sources.")
     print("Review tracked mapping files and commit them before H1 results.")
 
 
