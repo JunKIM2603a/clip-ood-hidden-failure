@@ -45,6 +45,7 @@ PACKAGES = [
     "pytest",
     "clip",
     "open-clip-torch",
+    "sentence-transformers",
     "openood-vlm",
 ]
 
