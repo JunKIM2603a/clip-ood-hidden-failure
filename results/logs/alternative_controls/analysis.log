@@ -1,0 +1,20 @@
+
+=== alternative controls: mcm / inaturalist ===
+
+=== alternative controls: mcm / sun ===
+
+=== alternative controls: neglabel / inaturalist ===
+
+=== alternative controls: neglabel / sun ===
+
+Fixed H1 worst-group residual gaps:
+mcm/inaturalist/predefined Solanales: raw=28.90pp adjusted=28.45pp CI=[24.12,32.65]pp persists=True
+mcm/inaturalist/minilm_kmeans cluster_08: raw=13.61pp adjusted=11.40pp CI=[7.66,15.16]pp persists=True
+mcm/sun/predefined mountains, hills, desert, sky: raw=0.51pp adjusted=-2.97pp CI=[-5.25,-0.67]pp persists=False
+mcm/sun/minilm_kmeans cluster_04: raw=9.17pp adjusted=1.99pp CI=[-0.61,4.57]pp persists=False
+neglabel/inaturalist/predefined Rosales: raw=3.46pp adjusted=3.19pp CI=[1.40,5.01]pp persists=True
+neglabel/inaturalist/minilm_kmeans cluster_02: raw=2.69pp adjusted=2.44pp CI=[1.39,3.57]pp persists=True
+neglabel/sun/predefined forest, field, jungle: raw=-0.25pp adjusted=1.63pp CI=[0.73,2.54]pp persists=True
+neglabel/sun/minilm_kmeans cluster_01: raw=7.34pp adjusted=7.01pp CI=[5.35,8.67]pp persists=True
+
+Outputs: /home/junkim2603a/clip-ood-hidden-failure/results/alternative_controls/ViT-B-32

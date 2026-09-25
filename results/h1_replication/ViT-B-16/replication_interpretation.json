@@ -1,0 +1,17 @@
+{
+  "stage": "ViT-B16_H1_replication",
+  "freeze_date": "2026-09-25",
+  "backbone": "ViT-B/16",
+  "bootstrap_resamples": 5000,
+  "confidence": 0.95,
+  "seed": 42,
+  "primary_endpoint": "selection_aware_fpr95_gap",
+  "condition_support_rule": "bootstrap_95CI_lower_gt_0",
+  "minilm_supported_conditions": 4,
+  "minilm_total_conditions": 4,
+  "minilm_both_methods_represented": true,
+  "predefined_inaturalist_both_methods_supported": true,
+  "replication_interpretation": "STRONG_REPLICATION",
+  "affects_project_gate": false,
+  "project_gate_remains": "CONDITIONAL_GO_after_H2_FAIL"
+}

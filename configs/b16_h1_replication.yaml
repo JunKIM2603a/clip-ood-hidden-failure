@@ -1,0 +1,51 @@
+version: "2026-09-25"
+status: frozen_before_b16_h1_replication_outcomes
+
+scope:
+  backbone: ViT-B/16
+  methods:
+    - mcm
+    - neglabel
+  primary_sources:
+    - inaturalist
+    - sun
+  subgroup_definitions:
+    - predefined
+    - minilm_kmeans
+
+reuse_frozen_h1_protocol:
+  fixed_id95_threshold_rule: numpy_quantile_0.05_method_higher
+  predefined_mapping: configs/subgroups/predefined.yaml
+  text_clustering_mapping: configs/subgroups/text_clustering.yaml
+  group_eligibility_unchanged: true
+  no_regrouping_after_b16_results: true
+
+uncertainty:
+  bootstrap_resamples: 5000
+  confidence: 0.95
+  seed: 42
+  fixed_id_reference: true
+  selection_aware_worst_group: true
+
+condition_support:
+  primary_endpoint: selection_aware_fpr95_gap
+  support_rule: bootstrap_95ci_lower_gt_0
+  auroc_gap: secondary_corroboration
+
+overall_replication_interpretation:
+  strong:
+    requirements:
+      min_supported_minilm_conditions: 3
+      require_both_methods_represented_in_minilm: true
+      require_predefined_inaturalist_both_methods: true
+  partial:
+    rule: "Not strong, but at least 2/4 MiniLM conditions support or at least one predefined iNaturalist method supports."
+  limited:
+    rule: "Neither strong nor partial."
+  affects_project_gate: false
+  note: "H1 already passed on ViT-B/32. This stage measures cross-backbone robustness and does not overwrite the H1 decision."
+
+outputs:
+  summary: results/h1_replication/ViT-B-16/selection_aware_summary.csv
+  selection_counts: results/h1_replication/ViT-B-16/worst_group_selection_counts.csv
+  decision: results/h1_replication/ViT-B-16/replication_interpretation.json

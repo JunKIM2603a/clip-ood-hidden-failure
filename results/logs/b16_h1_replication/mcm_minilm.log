@@ -1,0 +1,2 @@
+inaturalist: aggregate FPR95=31.97% worst=48.44% (cluster_08) | aggregate AUROC=94.43% worst=90.65% (cluster_08)
+sun: aggregate FPR95=38.55% worst=55.30% (cluster_03) | aggregate AUROC=92.37% worst=86.63% (cluster_04)
