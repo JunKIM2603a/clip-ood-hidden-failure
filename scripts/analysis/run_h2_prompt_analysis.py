@@ -513,14 +513,21 @@ def main():
             "Run other backbones only as separately labeled robustness."
         )
 
-    sources = args.sources or primary_sources()
-    non_primary = sorted(set(sources) - set(primary_sources()))
-    if non_primary:
+    frozen_methods = {"mcm", "neglabel"}
+    if set(args.methods) != frozen_methods or len(args.methods) != 2:
         raise RuntimeError(
-            "Primary H2 sources are frozen to "
+            "Primary H2 decision requires both frozen methods: "
+            "mcm and neglabel. Run partial conditions only with a "
+            "separate diagnostic script, not this decision script."
+        )
+
+    sources = args.sources or primary_sources()
+    frozen_sources = set(primary_sources())
+    if set(sources) != frozen_sources or len(sources) != len(frozen_sources):
+        raise RuntimeError(
+            "Primary H2 decision requires all frozen OOD sources: "
             + ", ".join(primary_sources())
-            + "; got non-primary "
-            + ", ".join(non_primary)
+            + ". Run partial conditions only as diagnostics."
         )
 
     n_bootstrap = (
