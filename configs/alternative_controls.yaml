@@ -1,0 +1,68 @@
+version: "2026-09-25"
+status: frozen_before_alternative_control_outcomes
+
+scope:
+  backbone: ViT-B/32
+  methods:
+    - mcm
+    - neglabel
+  sources:
+    - inaturalist
+    - sun
+  subgroup_definitions:
+    - predefined
+    - minilm_kmeans
+
+outcome:
+  error_definition: h1_baseline_single_prompt_at_method_specific_frozen_id95
+  larger_score_is_more_id_like: true
+
+difficulty_proxies:
+  visual_id_proximity:
+    definition: max_cosine_to_any_imagenet_val_image_feature
+    encoder: OpenAI_CLIP_ViT-B/32_image_encoder
+    note: "Uses the frozen detector backbone representation but does not use class prompts or detector scores."
+  semantic_id_proximity:
+    definition: max_cosine_of_ood_leaf_concept_to_imagenet_class_names
+    encoder: sentence-transformers/all-MiniLM-L6-v2
+    revision: 1110a243fdf4706b3f48f1d95db1a4f5529b4d41
+    normalize_embeddings: true
+    imagenet_names_source: MCM_clean_imagenet_class_names
+
+risk_model:
+  validation: stratified_5fold_oof
+  seed: 42
+  predictors:
+    - visual_id_proximity
+    - semantic_id_proximity
+  transform: polynomial_degree_2_then_standardize
+  polynomial_terms:
+    - visual
+    - semantic
+    - visual_squared
+    - visual_x_semantic
+    - semantic_squared
+  classifier: unregularized_logistic_regression
+  forbidden_predictors:
+    - detector_score
+    - prompt_score_mean
+    - prompt_score_std
+    - subgroup_label
+
+group_adjustment:
+  residual: observed_error_minus_oof_similarity_risk
+  adjusted_gap: group_mean_residual_minus_source_mean_residual
+  bootstrap:
+    unit: ood_sample
+    resamples: 5000
+    confidence: 0.95
+    seed: 42
+  fixed_group_policy: "Use the H1-selected worst-FPR95 group from the already-completed H1 result. Do not reselect a different group after viewing controls."
+  persistence_flag: adjusted_gap_bootstrap_95ci_lower_gt_0
+  interpretation:
+    persists: "Similarity proxies do not fully explain the fixed H1 worst-group excess."
+    not_persistent: "The fixed H1 worst-group excess is not distinguishable from zero after the frozen similarity adjustment; this may support the competing explanation but is not a causal proof."
+
+report_all_groups: true
+global_binary_pass_fail: false
+reason_no_global_gate: "This stage diagnoses a pre-specified competing explanation rather than redefining H1 or creating a new primary hypothesis after H1 results."
