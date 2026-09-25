@@ -1,0 +1,16 @@
+
+=== H2: mcm / ViT-B/32 / inaturalist ===
+errors=3396/10000 | beta_sigma=-0.5312 CI=[-0.6302,-0.4393] | delta_logloss=0.008028 CI=[0.005314,0.010509] | support=False
+
+=== H2: mcm / ViT-B/32 / sun ===
+errors=4056/10000 | beta_sigma=-0.2221 CI=[-0.3255,-0.1251] | delta_logloss=0.000847 CI=[-0.000004,0.001660] | support=False
+
+=== H2: neglabel / ViT-B/32 / inaturalist ===
+errors=339/10000 | beta_sigma=0.0008 CI=[-0.3547,0.3120] | delta_logloss=-0.000034 CI=[-0.000091,0.000018] | support=False
+
+=== H2: neglabel / ViT-B/32 / sun ===
+errors=2271/10000 | beta_sigma=-0.0029 CI=[-0.1111,0.1030] | delta_logloss=-0.000129 CI=[-0.000233,-0.000025] | support=False
+
+H2 decision: FAIL | supported 0/4 eligible conditions
+H2 outputs: /home/junkim2603a/clip-ood-hidden-failure/results/h2_prompt/ViT-B-32
+H3 has not been evaluated. Do not start H3 until this H2 decision is reviewed.

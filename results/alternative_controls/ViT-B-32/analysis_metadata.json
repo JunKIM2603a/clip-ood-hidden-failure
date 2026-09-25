@@ -1,0 +1,19 @@
+{
+  "stage": "alternative_explanation_controls",
+  "freeze_date": "2026-09-25",
+  "backbone": "ViT-B/32",
+  "methods": [
+    "mcm",
+    "neglabel"
+  ],
+  "sources": [
+    "inaturalist",
+    "sun"
+  ],
+  "bootstrap_resamples": 5000,
+  "confidence": 0.95,
+  "seed": 42,
+  "global_binary_pass_fail": false,
+  "fixed_group_policy": "Use the H1-selected worst-FPR95 group from the already-completed H1 result. Do not reselect a different group after viewing controls.",
+  "next_stage_after_review": "ViT-B/16_H1_replication"
+}

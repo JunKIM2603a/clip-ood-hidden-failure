@@ -1,0 +1,8 @@
+
+=== H1 predefined: mcm / ViT-B/16 / inaturalist ===
+inaturalist: aggregate FPR95=31.97% worst=48.65% (Asterales) | aggregate AUROC=94.43% worst=88.56% (Liliales)
+
+=== H1 predefined: mcm / ViT-B/16 / sun ===
+sun: aggregate FPR95=38.55% worst=45.19% (mountains, hills, desert, sky) | aggregate AUROC=92.37% worst=91.64% (forest, field, jungle)
+
+H1 outputs: /home/junkim2603a/clip-ood-hidden-failure/results/h1_predefined/ViT-B-16/mcm

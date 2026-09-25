@@ -1,0 +1,28 @@
+
+=== selection-aware H1 replication: mcm/inaturalist/predefined ===
+FPR95 gap median=18.45pp CI=[15.21,22.85]pp support=True
+
+=== selection-aware H1 replication: mcm/inaturalist/minilm_kmeans ===
+FPR95 gap median=16.40pp CI=[12.59,20.40]pp support=True
+
+=== selection-aware H1 replication: mcm/sun/predefined ===
+FPR95 gap median=6.67pp CI=[4.26,9.03]pp support=True
+
+=== selection-aware H1 replication: mcm/sun/minilm_kmeans ===
+FPR95 gap median=16.76pp CI=[12.91,20.85]pp support=True
+
+=== selection-aware H1 replication: neglabel/inaturalist/predefined ===
+FPR95 gap median=1.95pp CI=[0.91,3.30]pp support=True
+
+=== selection-aware H1 replication: neglabel/inaturalist/minilm_kmeans ===
+FPR95 gap median=2.16pp CI=[1.44,3.12]pp support=True
+
+=== selection-aware H1 replication: neglabel/sun/predefined ===
+FPR95 gap median=0.07pp CI=[-0.71,1.12]pp support=False
+
+=== selection-aware H1 replication: neglabel/sun/minilm_kmeans ===
+FPR95 gap median=9.38pp CI=[7.78,12.22]pp support=True
+
+ViT-B/16 replication interpretation: STRONG_REPLICATION
+MiniLM supported: 4/4 | predefined iNaturalist both methods: True
+Outputs: /home/junkim2603a/clip-ood-hidden-failure/results/h1_replication/ViT-B-16

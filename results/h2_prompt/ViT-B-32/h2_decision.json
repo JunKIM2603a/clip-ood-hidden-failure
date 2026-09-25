@@ -1,0 +1,35 @@
+{
+  "stage": "H2_prompt_sensitivity",
+  "date_frozen": "2026-09-25",
+  "backbone": "ViT-B/32",
+  "primary_sources": [
+    "inaturalist",
+    "sun"
+  ],
+  "methods": [
+    "mcm",
+    "neglabel"
+  ],
+  "prompt_count": 8,
+  "error_definition": "original_H1_baseline_single_prompt_score_at_original_method_specific_ImageNet_ID95",
+  "association_model": "error ~ z(mu) + z(sigma)",
+  "predictive_comparison": "5fold_OOF_logloss_M0(error~z(mu))_vs_M1(error~z(mu)+z(sigma))",
+  "condition_support_rule": {
+    "association": "bootstrap_95CI_lower(beta_sigma) > 0",
+    "prediction": "paired_bootstrap_95CI_lower(OOF_logloss_M0_minus_M1) > 0",
+    "requires_both": true
+  },
+  "minimum_errors_per_condition": 50,
+  "minimum_correct_per_condition": 50,
+  "minimum_supported_conditions": 3,
+  "eligible_conditions": 4,
+  "supported_conditions": 0,
+  "expected_conditions": 4,
+  "bootstrap_resamples": 1000,
+  "confidence": 0.95,
+  "cv_folds": 5,
+  "seed": 42,
+  "h2_decision": "FAIL",
+  "project_gate_after_h2": "CONDITIONAL_GO",
+  "h3_evaluated": false
+}

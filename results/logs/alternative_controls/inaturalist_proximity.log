@@ -1,0 +1,7 @@
+[visual] inaturalist: nearest ImageNet-val CLIP image similarity
+[semantic] inaturalist: 110 OOD concepts against 1000 ImageNet class names
+Batches:   0%|          | 0/4 [00:00<?, ?it/s]Batches:  25%|██▌       | 1/4 [00:03<00:11,  3.76s/it]Batches:  50%|█████     | 2/4 [00:07<00:07,  3.65s/it]Batches:  75%|███████▌  | 3/4 [00:11<00:03,  3.83s/it]Batches: 100%|██████████| 4/4 [00:15<00:00,  3.81s/it]Batches: 100%|██████████| 4/4 [00:15<00:00,  3.79s/it]
+Batches:   0%|          | 0/1 [00:00<?, ?it/s]Batches: 100%|██████████| 1/1 [00:03<00:00,  3.77s/it]Batches: 100%|██████████| 1/1 [00:03<00:00,  3.77s/it]
+[output] /home/junkim2603a/clip-ood-hidden-failure/results/raw/alternative_controls/ViT-B-32/inaturalist_proximity.csv.gz
+[summary] visual min/mean/max = 0.5780/0.8377/0.9390
+[summary] semantic min/mean/max = 0.3270/0.4488/0.6420

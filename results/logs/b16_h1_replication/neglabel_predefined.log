@@ -1,0 +1,8 @@
+
+=== H1 predefined: neglabel / ViT-B/16 / inaturalist ===
+inaturalist: aggregate FPR95=1.92% worst=3.65% (Rosales) | aggregate AUROC=99.50% worst=99.05% (Liliales)
+
+=== H1 predefined: neglabel / ViT-B/16 / sun ===
+sun: aggregate FPR95=21.11% worst=21.17% (water, ice, snow) | aggregate AUROC=95.33% worst=95.28% (forest, field, jungle)
+
+H1 outputs: /home/junkim2603a/clip-ood-hidden-failure/results/h1_predefined/ViT-B-16/neglabel
