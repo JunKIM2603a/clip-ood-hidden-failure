@@ -348,6 +348,22 @@ For later full experiments, consider bootstrap resampling at the natural indepen
 
 ---
 
+## Alternative-explanation control freeze — 2026-09-25
+
+H2 failed its frozen primary rule (0/4 supported conditions), so the project
+moves to CONDITIONAL GO and H3 is not started.
+
+Before inspecting alternative-control outcomes, the visual/semantic near-ID
+control protocol was frozen in docs/alternative_controls_protocol.md.
+
+The control carries forward the already-selected H1 worst-FPR95 groups without
+reselection, uses only near-ID visual and independent MiniLM semantic
+similarity as difficulty proxies, and reports residual subgroup gaps after a
+5-fold OOF similarity-only risk model.
+
+This stage diagnoses the pre-specified competing explanation; it does not
+create a new global PASS/FAIL gate and does not redefine H1.
+
 ## Competing explanations
 
 If H1/H2 are positive, explicitly test:
