@@ -244,6 +244,21 @@ A convincing signal is not merely one bad small group. It should show:
 
 ---
 
+## H2 operationalization freeze — 2026-09-25
+
+After H1 PASS and before reading any H2 prompt-score outcomes, the H2 execution
+and decision details were frozen in
+`docs/h2_prompt_sensitivity_protocol.md`.
+
+Key clarification: the primary pilot remains the **8 prompt templates already
+committed in configs/pilot.yaml**. Expanding to 16 prompts after H1 would change
+a frozen primary condition, so any future 16-template run must be labeled
+secondary robustness and cannot replace the 8-template primary result.
+
+The H2 error label is the original H1 single-prompt detector error at the
+original method-specific ImageNet ID95 threshold. The prompt ensemble therefore
+does not redefine the outcome it is asked to predict.
+
 ## H2 analysis — prompt dispersion as an error predictor
 
 For sample (x) and prompt (p):

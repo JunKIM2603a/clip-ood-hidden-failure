@@ -123,9 +123,18 @@ metrics:
     num_resamples: 1000
 
 prompt_sensitivity:
+  status: frozen_before_h2_results
+  freeze_date: "2026-09-25"
+  primary_backbone: ViT-B/32
+  prompt_count: 8
+  prompt_variation: positive_id_class_prompt_template
+  neglabel_negative_policy: freeze_h1_negative_prompt_embeddings_and_mining
+  error_definition: h1_baseline_single_prompt_at_frozen_id95
   mean: true
   std: true
+  std_ddof: 0
   lower_quantile: true
+  lower_quantiles: [0.10, 0.25]
   required_error_models:
     m0:
       predictors:
@@ -134,6 +143,27 @@ prompt_sensitivity:
       predictors:
         - prompt_score_mean
         - prompt_score_std
+  primary_association:
+    model: logistic_error_on_z_mu_and_z_sigma
+    target_parameter: beta_sigma
+    support_rule: bootstrap_95ci_lower_gt_0
+  primary_predictive_comparison:
+    validation: stratified_5fold_oof
+    metric: log_loss
+    improvement: logloss_m0_minus_logloss_m1
+    support_rule: paired_bootstrap_95ci_lower_gt_0
+  cv_folds: 5
+  bootstrap_resamples: 1000
+  minimum_errors_per_condition: 50
+  minimum_correct_per_condition: 50
+  minimum_supported_conditions: 3
+  condition_support_requires:
+    - positive_beta_sigma_ci
+    - positive_oof_logloss_gain_ci
+  decision_rule:
+    pass: at_least_3_of_4_eligible_conditions_support_h2
+    fail: fewer_than_3_of_4_eligible_conditions_support_h2
+    insufficient: any_primary_condition_fails_error_count_eligibility
   required_controls_if_available:
     - ood_source
     - nearest_id_concept_similarity
@@ -143,6 +173,8 @@ prompt_sensitivity:
     - error_rate_by_std_quantile
     - error_prediction_gain_m1_over_m0
     - subgroup_std_vs_fpr95
+    - sigma_error_auroc
+  h3_must_not_run_before_h2_decision: true
 
 robust_aggregation:
   enabled: false

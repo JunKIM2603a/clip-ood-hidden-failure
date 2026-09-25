@@ -27,9 +27,22 @@ def _load_official_class_module():
     return module
 
 
+def official_positive_class_names() -> list[str]:
+    module = _load_official_class_module()
+    names = [
+        str(name).strip()
+        for name in list(module.CLASS_NAME["imagenet"])
+    ]
+    if len(names) != 1000:
+        raise RuntimeError(
+            f"Expected 1000 NegLabel positive class names, got {len(names)}"
+        )
+    return names
+
+
 def official_positive_prompts() -> list[str]:
     module = _load_official_class_module()
-    names = list(module.CLASS_NAME["imagenet"])
+    names = official_positive_class_names()
     template = module.prompt_templates[85]
     prompts = [template.format(name) for name in names]
     if len(prompts) != 1000:
@@ -127,3 +140,97 @@ def neglabel_scores(
         scores.append(score.cpu().numpy())
 
     return np.concatenate(scores).astype(np.float32, copy=False)
+
+
+@torch.no_grad()
+def neglabel_prompt_scores(
+    image_features: np.ndarray,
+    positive_text_by_prompt: list[torch.Tensor],
+    negative_text: torch.Tensor,
+    device: torch.device,
+    ngroup: int = 100,
+    temperature: float = 1.0,
+    logit_scale: float = 100.0,
+    batch_size: int = 512,
+) -> np.ndarray:
+    """Score one fixed NegLabel negative set under multiple positive prompts.
+
+    H2 varies only the ImageNet positive-class prompt template. The selected
+    negative prompt identities/embeddings and deterministic negative grouping
+    remain exactly fixed across prompt variants. Negative logits are therefore
+    computed once per image batch and reused for every positive prompt.
+    """
+    if not positive_text_by_prompt:
+        raise ValueError("positive_text_by_prompt must not be empty")
+
+    n_pos = int(positive_text_by_prompt[0].shape[0])
+    feature_dim = int(positive_text_by_prompt[0].shape[1])
+    for idx, text in enumerate(positive_text_by_prompt):
+        if text.ndim != 2:
+            raise ValueError(f"positive prompt {idx} must be a 2-D tensor")
+        if int(text.shape[0]) != n_pos or int(text.shape[1]) != feature_dim:
+            raise ValueError("All positive prompt feature matrices must match")
+    if int(negative_text.shape[1]) != feature_dim:
+        raise ValueError("Positive and negative text feature dimensions differ")
+
+    n_neg = int(negative_text.shape[0])
+    n_used = n_neg - (n_neg % ngroup)
+    if n_used <= 0:
+        raise ValueError(
+            f"Need at least ngroup={ngroup} negative prompts, got {n_neg}"
+        )
+    negative_text = negative_text[:n_used]
+
+    torch.manual_seed(0)
+    if device.type == "cuda":
+        torch.cuda.manual_seed(0)
+    perm = torch.randperm(n_used, device=device)
+    group_size = n_used // ngroup
+
+    batches: list[np.ndarray] = []
+    for start in tqdm(
+        range(0, len(image_features), batch_size),
+        desc="NegLabel H2 prompt score",
+        leave=False,
+    ):
+        feat = torch.from_numpy(
+            image_features[start : start + batch_size]
+        ).to(device)
+
+        neg = logit_scale * (feat @ negative_text.T)
+        neg = neg[:, perm].reshape(
+            feat.shape[0],
+            ngroup,
+            group_size,
+        )
+        neg_lse = torch.logsumexp(
+            neg / temperature,
+            dim=2,
+        )
+
+        prompt_scores = []
+        for positive_text in positive_text_by_prompt:
+            pos = logit_scale * (feat @ positive_text.T)
+            pos_lse = torch.logsumexp(
+                pos / temperature,
+                dim=1,
+            )
+            group_scores = torch.sigmoid(
+                pos_lse[:, None] - neg_lse
+            )
+            prompt_scores.append(
+                group_scores.mean(dim=1)
+            )
+
+        matrix = torch.stack(
+            prompt_scores,
+            dim=1,
+        )
+        batches.append(
+            matrix.cpu().numpy()
+        )
+
+    return np.concatenate(
+        batches,
+        axis=0,
+    ).astype(np.float32, copy=False)
