@@ -1,0 +1,295 @@
+{
+  "stage": "H_geo_text_risk_pilot",
+  "study_status": "EXPLORATORY_ONLY",
+  "hypothesis": "Concept-name risk ranks are associated with observed concept image FPR95.",
+  "h1_h2_decisions_changed": false,
+  "causal_mining_claim_tested": false,
+  "new_images_encoded": 0,
+  "training_steps": 0,
+  "source": "sun",
+  "backbone": "ViT-B/32",
+  "prompt": "a photo of a {}",
+  "seed": 42,
+  "bootstrap_resamples": 2000,
+  "minimum_images_per_concept": 20,
+  "bootstrap_scope": "paired concept bootstrap; conditional on observed images and fixed ID reference; descriptive, no multiple-testing correction",
+  "git_commit": "f3896a28da941a78b36f2aa6b7928011b4aaa43b",
+  "git_status_before_output": "",
+  "utc_created": "2026-09-28T14:29:51.692827+00:00",
+  "inputs": {
+    "concept_names": {
+      "path": "/home/junkim2603a/clip-ood-hidden-failure/configs/subgroups/mappings/sun_mos50_hierarchy.csv",
+      "sha256": "9a4cd8339e6b754ea093e00ea4d1870eac773978f83fd3538ef1c75724c3a2a5"
+    },
+    "semantic_mapping": {
+      "path": "/home/junkim2603a/clip-ood-hidden-failure/data/semantic_labels/sun_image_semantic_labels.csv",
+      "sha256": "2c0a283bc0baaad431c15e3a7fc36da57cafe6c96b0830b7800d3ca566b68784"
+    },
+    "mcm_imagenet": {
+      "path": "/home/junkim2603a/clip-ood-hidden-failure/results/raw/reproduction/ViT-B-32/mcm/imagenet.csv",
+      "sha256": "b4820c2222000fb640305aac2b5c8b12bdba7c3602ee30877fd4b479d5240fc7"
+    },
+    "mcm_sun": {
+      "path": "/home/junkim2603a/clip-ood-hidden-failure/results/raw/reproduction/ViT-B-32/mcm/sun.csv",
+      "sha256": "e6fc93be2ab7766bfab077ff3317ff1e419ece248faac6ae0ebdd0f09ed314ff"
+    },
+    "neglabel_imagenet": {
+      "path": "/home/junkim2603a/clip-ood-hidden-failure/results/raw/reproduction/ViT-B-32/neglabel/imagenet.csv",
+      "sha256": "2a41e36c5d49b1f7457db62a9088a81861dcd1aca7d3b0fbfa87bf43d2cbb837"
+    },
+    "neglabel_sun": {
+      "path": "/home/junkim2603a/clip-ood-hidden-failure/results/raw/reproduction/ViT-B-32/neglabel/sun.csv",
+      "sha256": "c6819439e75bb543a455cb14b92ea1c6b71c11215312fedd22c0e3d4df4fbec2"
+    }
+  },
+  "runner_sha256": "fdca8d260f6f2eb48e333ca55b7ebf1b24e85814fddf153644b154f0c143924a",
+  "negative_metadata": {
+    "positive_prompt_index": 85,
+    "negative_prompt_file_sha256": "50d271b4e2668b772802555f4072ecabfd917f19b789b5475a0750ec5fdf5061",
+    "negative_prompt_count": 10499,
+    "negative_source": "backbone_specific_dynamic_mining",
+    "ngroup": 100,
+    "temperature": 1.0,
+    "logit_scale": 100.0,
+    "mining_metadata": {
+      "schema_version": 1,
+      "method": "NegLabel",
+      "backbone": "ViT-B/32",
+      "official_algorithm_parameters": {
+        "positive_prompt_index": 85,
+        "negative_prompt_index_noun": 85,
+        "adjective_prompt": "This is a {} photo",
+        "similarity_quantile": 0.95,
+        "select_fraction_per_part_of_speech": 0.15,
+        "ngroup": 100
+      },
+      "determinism_amendment": {
+        "official_code": "os.listdir(wordnet_database)",
+        "pilot": "lexicographically sorted corpus filenames",
+        "reason": "remove filesystem-order dependence before detector results"
+      },
+      "corpus_raw_word_count": 79455,
+      "corpus_unique_word_count": 70000,
+      "candidate_nouns": 56909,
+      "candidate_adjectives": 13091,
+      "selected_nouns": 8536,
+      "selected_adjectives": 1963,
+      "selected_total": 10499,
+      "corpus_files": [
+        {
+          "path": "txtfiles/adj.all.txt",
+          "sha256": "7f888903bdfedab07224a1f96fb84dec2bda534d72158c3ee0361a3a27178d90",
+          "raw_lines": 10007,
+          "kind": "adj"
+        },
+        {
+          "path": "txtfiles/adj.pert.txt",
+          "sha256": "33cff27ba64b4d4ae7c776521b2fdc6ccc5f3ca89d0f45f01444418c8aa24aa6",
+          "raw_lines": 3400,
+          "kind": "adj"
+        },
+        {
+          "path": "txtfiles/adj.ppl.txt",
+          "sha256": "fef9547241d68552d8237b0ccecc4211c74050d0effaaae08e584a1c00d3c688",
+          "raw_lines": 60,
+          "kind": "adj"
+        },
+        {
+          "path": "txtfiles/noun.Tops.txt",
+          "sha256": "9dbd5114ea55c420a6fd1d1837dcf8224afa6a4f90ddf759d767e4270e2ff8dc",
+          "raw_lines": 50,
+          "kind": "noun"
+        },
+        {
+          "path": "txtfiles/noun.act.txt",
+          "sha256": "3a48bd561bfa122b3b0699577112f5ae08c881e31c702d71d4c5abf3ab09709f",
+          "raw_lines": 5897,
+          "kind": "noun"
+        },
+        {
+          "path": "txtfiles/noun.artifact.txt",
+          "sha256": "d55b2dde3a44d220374cd36aaa306853aa99d7162b56e62772c66ed339e3158f",
+          "raw_lines": 10345,
+          "kind": "noun"
+        },
+        {
+          "path": "txtfiles/noun.attribute.txt",
+          "sha256": "c8b9ec05eab345f6917f29c6010e7699a4b791f0479d5c652bc322cd76f933a5",
+          "raw_lines": 2729,
+          "kind": "noun"
+        },
+        {
+          "path": "txtfiles/noun.body.txt",
+          "sha256": "0a1947594abcba99a0aa1012db4735febe24835ba52f81233e151ba2679ce493",
+          "raw_lines": 1978,
+          "kind": "noun"
+        },
+        {
+          "path": "txtfiles/noun.cognition.txt",
+          "sha256": "3f527c3bc1d92d168e8d6e22e62fc52ef21adcd7e8555f75fdcbf63832747e1d",
+          "raw_lines": 2775,
+          "kind": "noun"
+        },
+        {
+          "path": "txtfiles/noun.communication.txt",
+          "sha256": "581ed30741b17c242c6d92660e741137c8d28cc35a769f089b99f4a5d8d05f68",
+          "raw_lines": 5090,
+          "kind": "noun"
+        },
+        {
+          "path": "txtfiles/noun.event.txt",
+          "sha256": "96ef789309aaa8ffeec625e7fb3b98749d650199c3e396899ac77c1ed203c493",
+          "raw_lines": 998,
+          "kind": "noun"
+        },
+        {
+          "path": "txtfiles/noun.feeling.txt",
+          "sha256": "e4546336c87bcf508fde08d352ffed1c2e52970c826b9c0166e5a9f8c3a9455f",
+          "raw_lines": 413,
+          "kind": "noun"
+        },
+        {
+          "path": "txtfiles/noun.group.txt",
+          "sha256": "bf1c87d255ec0ac27bffa7bfc40ac7621227088d99a3f2d82f5e0d82e100c1bb",
+          "raw_lines": 2407,
+          "kind": "noun"
+        },
+        {
+          "path": "txtfiles/noun.location.txt",
+          "sha256": "6ba5f3222409227a99d23c5560eb62e61b6f86913cb645bdaeec18b690a4ba90",
+          "raw_lines": 2959,
+          "kind": "noun"
+        },
+        {
+          "path": "txtfiles/noun.motive.txt",
+          "sha256": "db9f18278e2db6a417af134da6b0f887919b5f91710bd93b0a70cbd5c0036218",
+          "raw_lines": 41,
+          "kind": "noun"
+        },
+        {
+          "path": "txtfiles/noun.object.txt",
+          "sha256": "157840456faa99eddddae56a939ec0f66455cfe655f401628f6013563546980e",
+          "raw_lines": 1501,
+          "kind": "noun"
+        },
+        {
+          "path": "txtfiles/noun.person.txt",
+          "sha256": "3c5195cab0795d32f409caa964e29897a569e095b999c49257a859b89ee6cac9",
+          "raw_lines": 9619,
+          "kind": "noun"
+        },
+        {
+          "path": "txtfiles/noun.phenomenon.txt",
+          "sha256": "1a93823d253f6156df4e05b2c6a9ac013a7b080805736f38ad3f355e30df8cf5",
+          "raw_lines": 629,
+          "kind": "noun"
+        },
+        {
+          "path": "txtfiles/noun.plant.txt",
+          "sha256": "3c605c60eadedac6150dd573ba650a289640e57e7fcb91c733501fc213fcf700",
+          "raw_lines": 7631,
+          "kind": "noun"
+        },
+        {
+          "path": "txtfiles/noun.possession.txt",
+          "sha256": "487c28b12e18896dd252bc54ff79b32df23daa76bd5ad0b9abc6cac91f860d58",
+          "raw_lines": 998,
+          "kind": "noun"
+        },
+        {
+          "path": "txtfiles/noun.process.txt",
+          "sha256": "7824eaf4ead41f6536786d9c58693bbcafef5cac63c94b8c54763d67810e619a",
+          "raw_lines": 719,
+          "kind": "noun"
+        },
+        {
+          "path": "txtfiles/noun.quantity.txt",
+          "sha256": "0bf3aeacc7a42479578afc2c668a83a9cabe65db192295ea6203b8fde363ecdb",
+          "raw_lines": 1195,
+          "kind": "noun"
+        },
+        {
+          "path": "txtfiles/noun.relation.txt",
+          "sha256": "a40af1466e7bb94fc6f3d6829e6c3df25b154dbb219be36ff1f3c25266b9f124",
+          "raw_lines": 411,
+          "kind": "noun"
+        },
+        {
+          "path": "txtfiles/noun.shape.txt",
+          "sha256": "2dd6330f50472e3321dd7bbfca1f8bd7c2fa370802ef32b3ecf95c95df93d9e5",
+          "raw_lines": 331,
+          "kind": "noun"
+        },
+        {
+          "path": "txtfiles/noun.state.txt",
+          "sha256": "c6b1d9e5df6cf1a1e0873b9d8c57d512c42ef9ca879848bc8ed055621f80d2cd",
+          "raw_lines": 3413,
+          "kind": "noun"
+        },
+        {
+          "path": "txtfiles/noun.substance.txt",
+          "sha256": "e22be239af2333abeeb549623a57eb2168ea90d0c8c80c57644781698a947607",
+          "raw_lines": 2926,
+          "kind": "noun"
+        },
+        {
+          "path": "txtfiles/noun.time.txt",
+          "sha256": "7547cf817d5b4bcf66055eceecc4a7d831073588bfd5005826f1b5ab4b127da0",
+          "raw_lines": 933,
+          "kind": "noun"
+        }
+      ],
+      "selected_prompt_file_sha256": "50d271b4e2668b772802555f4072ecabfd917f19b789b5475a0750ec5fdf5061"
+    }
+  },
+  "methods": {
+    "mcm": {
+      "id95_threshold": 0.001092612627,
+      "realized_id_tpr": 0.95,
+      "n_ood": 10000,
+      "aggregate_fpr95": 0.4056,
+      "eligible_concepts": 50,
+      "main_result": {
+        "method": "mcm",
+        "predictor": "text_proxy_score",
+        "role": "main_exploratory",
+        "n_concepts": 50,
+        "rho": 0.0728451380552221,
+        "ci_low": -0.22099269046187636,
+        "ci_high": 0.3767430381618412,
+        "delta_rho_vs_max_id": 0.08585834333733494,
+        "delta_ci_low": -0.11688828325226536,
+        "delta_ci_high": 0.2873646808485777,
+        "valid_bootstrap": 2000,
+        "status": "NO_CLEAR_POSITIVE_SIGNAL"
+      }
+    },
+    "neglabel": {
+      "id95_threshold": 0.8195621967,
+      "realized_id_tpr": 0.95,
+      "n_ood": 10000,
+      "aggregate_fpr95": 0.2271,
+      "eligible_concepts": 50,
+      "main_result": {
+        "method": "neglabel",
+        "predictor": "text_proxy_score",
+        "role": "main_exploratory",
+        "n_concepts": 50,
+        "rho": 0.25915966386554623,
+        "ci_low": -0.023543668662653325,
+        "ci_high": 0.5215299351415065,
+        "delta_rho_vs_max_id": -0.01776710684273708,
+        "delta_ci_low": -0.27306991515168866,
+        "delta_ci_high": 0.2516797490161212,
+        "valid_bootstrap": 2000,
+        "status": "NO_CLEAR_POSITIVE_SIGNAL"
+      }
+    }
+  },
+  "limitations": [
+    "Previously inspected benchmark; not held-out confirmation.",
+    "Text proxy scores are ranking indices, not calibrated image FPR predictions.",
+    "Secondary predictors cannot replace a failed main predictor post hoc.",
+    "No test of novelty, causation, semantic-group selection or H2 rescue."
+  ]
+}
